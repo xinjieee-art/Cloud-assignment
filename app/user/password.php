@@ -2,7 +2,7 @@
 include '../_base.php';
 
 // ----------------------------------------------------------------------------
-// test test
+//Hello Xinjie
 // Authenticated users
 auth(); // only valid user can change password
 
