@@ -91,6 +91,9 @@ function is_money($value) {
 function is_email($value) {
     return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
 }
+function is_user($value){
+    return filter_var($value, FILTER_VALIDATE_INT) !== false;
+}
 
 // ============================================================================
 // HTML Helpers
