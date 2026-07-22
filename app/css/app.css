@@ -20,14 +20,7 @@ header, footer {
     background: #ccc;
 }
 
-header { /* NEW */
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
 header h1 {
-    flex: 1; /* NEW */
     margin: 0;
     padding-left: 40px;
     background: url(/images/favicon.png) no-repeat left / 36px;
@@ -36,17 +29,6 @@ header h1 {
 header a {
     color: inherit;
     text-decoration: none;
-}
-
-header div { /* NEW */
-    text-align: right;
-}
-
-header img { /* NEW */
-    width: 36px;
-    height: 36px;
-    border: 1px solid #333;
-    border-radius: 5px;
 }
 
 nav {
@@ -76,7 +58,16 @@ main {
 }
 
 main h1 {
+    display: flex;
     margin-top: 0;
+    align-items: baseline;
+    gap: 15px;
+}
+
+.title-extra {
+    font-size: 16px;
+    font-weight: normal;
+    color: #666;
 }
 
 /* Pager */
@@ -215,4 +206,100 @@ label.upload img {
     height: 200px;
     object-fit: cover;
     cursor: pointer;
+}
+
+/* Admin home page ------------------------------------------------------------ */
+.admin-layout {
+    display: flex;
+    min-height: 80vh;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.admin-sidebar {
+    width: 220px;
+    background: #fafafa;
+    border-right: 1px solid #e0e0e0;
+    padding: 1rem 0;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar a.active {
+    background: #eef0ff;
+    color: #3d3dff;
+    font-weight: 500;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    background: #fff;
+}
+
+.admin-content h2 {
+    margin-top: 0;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-top: 1.5rem;
+}
+
+.stat-card {
+    background: #f7f7f9;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.stat-card .label {
+    font-size: 13px;
+    color: #666;
+}
+
+.stat-card .value {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* Sidebar admin -------------------------------------------------------*/
+.sidebar-user {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 14px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.sidebar-user:hover {
+    background: #eef0ff;
+}
+
+.sidebar-user img {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    object-fit: cover;
 }
