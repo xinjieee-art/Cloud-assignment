@@ -15,13 +15,15 @@
 
     <header>
         <h1><a href="/">ABC Library</a></h1>
-        
     </header>
 
     <nav>
-        <a href="/reserve/insert.php">Booking reservartion</a>
         <a href="/room/detail.php">Room detail</a>
     </nav>
+    <a href="/reserve/insert.php">
+     <button type="button">Booking Reservation</button>
+    </a>
+    
     <main>
         <h1>
             <?= $_title ?? 'Untitled' ?>

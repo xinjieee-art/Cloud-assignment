@@ -303,3 +303,7 @@ label.upload img {
     border-radius: 5px;
     object-fit: cover;
 }
+button{
+    border: 5px solid #000;
+    border-radius: 5px;
+}
