@@ -4,7 +4,7 @@ redirect('page/home.php');
 
 $title = 'Study Room Reservation';
 $_title = 'Welcome';
-include '_header.php';
+include '_head.php';
 ?>
 
 <?php

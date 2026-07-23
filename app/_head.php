@@ -17,7 +17,11 @@
         <h1><a href="/">ABC Library</a></h1>
         
     </header>
-    
+
+    <nav>
+        <a href="/reserve/insert.php">Booking reservartion</a>
+        <a href="/room/detail.php">Room detail</a>
+    </nav>
     <main>
         <h1>
             <?= $_title ?? 'Untitled' ?>
