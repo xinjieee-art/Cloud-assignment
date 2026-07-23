@@ -1,11 +1,7 @@
 <?php 
 require '../_base.php';
-include '../_header.php';
 
-$_title="Room Detail";
 ?>
-
-
 
 <?php 
 $user_id = req('user_id');
@@ -27,6 +23,9 @@ if(empty($user_id)){
 	$shows=$stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+include '../_header.php';
+$_title="Room Detail";
 
 ?>
 

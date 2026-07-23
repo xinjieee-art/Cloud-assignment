@@ -61,8 +61,8 @@ $Room = $_db->query('SELECT room_id, name FROM room')->fetchAll(PDO::FETCH_OBJ);
 
 $Slot = $_db->query('SELECT slot_id, start_time, end_time FROM time_slot ')->fetchAll(PDO::FETCH_OBJ);
 
-include "/header.php";
-$_title="";
+include "/head.php";
+$_title="Insert | reservation ";
 ?>
 <form method="POST">
 	
