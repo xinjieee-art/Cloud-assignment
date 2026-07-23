@@ -1,95 +1,117 @@
 <?php
-include '../_base.php';
+    include '../_base.php';
+    $_title = 'User | Password';
+    include '../_head.php';
 
-// ----------------------------------------------------------------------------
-// Authenticated users
-auth(); // only valid user can change password
+ 
+    auth('member');
 
-if (is_post()) {
-    $password     = req('password');
-    $new_password = req('new_password');
-    $confirm      = req('confirm');
+    if (is_post()) {
+        $password     = req('password');
+        $new_password = req('new_password');
+        $confirm      = req('confirm');
 
-    // Validate: password
-    if ($password == '') {
-        $_err['password'] = 'Required';
-    }
-    else if (strlen($password) < 5 || strlen($password) > 100) {
-        $_err['password'] = 'Between 5-100 characters';
-    }
-    else {
-        // check if new password same with current password
-        $stm = $_db->prepare('
-            SELECT COUNT(*) FROM user
-            WHERE password = SHA1(?) AND id = ?
-        ');
-        $stm->execute([$password, $_user->id]);
-        
-        if ($stm->fetchColumn() == 0) {
-            $_err['password'] = 'Not matched';
+
+        if ($password == '') {
+            $_err['password'] = 'Required';
+        }
+        else if (strlen($password) < 5 || strlen($password) > 100) {
+            $_err['password'] = 'Between 5-100 characters';
+        }
+        else {
+            $stm = $_db->prepare('
+                SELECT COUNT(*) FROM member
+                WHERE password = SHA1(?) AND member_id = ?
+            ');
+            $stm->execute([$password, $_user->member_id]);
+            
+            if ($stm->fetchColumn() == 0) {
+                $_err['password'] = 'Not matched';
+            }
+        }
+
+
+        if ($new_password == '') {
+            $_err['new_password'] = 'Required';
+        }
+        else if (strlen($new_password) < 5 || strlen($new_password) > 100) {
+            $_err['new_password'] = 'Between 5-100 characters';
+        }
+
+
+        if (!$confirm) {
+            $_err['confirm'] = 'Required';
+        }
+        else if (strlen($confirm) < 5 || strlen($confirm) > 100) {
+            $_err['confirm'] = 'Between 5-100 characters';
+        }
+        else if ($confirm != $new_password) {
+            $_err['confirm'] = 'Not matched';
+        }
+
+        if (!$_err) {
+            $stm = $_db->prepare('
+                UPDATE member
+                SET password = SHA1(?)
+                WHERE member_id = ?
+            ');
+            $stm->execute([$new_password, $_user->member_id]);
+
+            temp('info', 'Password updated');
+            redirect('/');
         }
     }
-
-    // Validate: new_password
-    if ($new_password == '') {
-        $_err['new_password'] = 'Required';
-    }
-    else if (strlen($new_password) < 5 || strlen($new_password) > 100) {
-        $_err['new_password'] = 'Between 5-100 characters';
-    }
-
-    // Validate: confirm
-    if (!$confirm) {
-        $_err['confirm'] = 'Required';
-    }
-    else if (strlen($confirm) < 5 || strlen($confirm) > 100) {
-        $_err['confirm'] = 'Between 5-100 characters';
-    }
-    else if ($confirm != $new_password) {
-        $_err['confirm'] = 'Not matched';
-    }
-
-    // DB operation
-    if (!$_err) {
-
-        // Update user (password)
-        // TODO
-        $stm = $_db->prepare('
-            UPDATE user
-            SET password = SHA1(?)
-            WHERE id = ?
-        ');
-        $stm->execute([$new_password, $_user->id]);
-
-        temp('info', 'Record updated');
-        redirect('/');
-    }
-}
-
-// ----------------------------------------------------------------------------
-
-$_title = 'User | Password';
-include '../_head.php';
 ?>
 
-<form method="post" class="form">
-    <label for="password">Password</label>
-    <?= html_password('password', 'maxlength="100"') ?>
+<form method="post" class="passwordForm">
+    <label for="password">Current Password</label>
+    <?= html_password('password', 'class="pass-input" maxlength="100"') ?>
     <?= err('password') ?>
 
     <label for="new_password">New Password</label>
-    <?= html_password('new_password', 'maxlength="100"') ?>
+    <?= html_password('new_password', 'class="pass-input" maxlength="100"') ?>
     <?= err('new_password') ?>
 
-    <label for="confirm">Confirm</label>
-    <?= html_password('confirm', 'maxlength="100"') ?>
+    <label for="confirm">Confirm Password</label>
+    <?= html_password('confirm', 'class="pass-input" maxlength="100"') ?>
     <?= err('confirm') ?>
 
+    <div style="text-align: right; margin-top: 10px; margin-bottom: 20px;">
+        <a href="javascript:void(0)" 
+        id="allToggleBtn" 
+        onclick="toggleAllPasswords()" 
+        style="color: #ff8da1;
+        font-size: 13px; 
+        text-decoration: none;
+         font-weight: bold;">
+        Show All Passwords
+        </a>
+    </div>
+
     <section>
-        <button>Submit</button>
+        <a href="profile.php">Back to Profile</a>
+    </section>
+
+    <section>
+        <button>Update Password</button>
         <button type="reset">Reset</button>
     </section>
 </form>
 
+<script>
+function toggleAllPasswords() {
+    const $inputs = $('.pass-input');
+    const $btn = $('#allToggleBtn');
+    
+    if ($inputs.length > 0) {
+        const isHidden = $inputs.first().attr('type') === 'password';
+
+        $inputs.attr('type', isHidden ? 'text' : 'password');
+        $btn.text(isHidden ? "Hide All Passwords" : "Show All Passwords");
+    }
+}
+</script>
+
 <?php
 include '../_foot.php';
+?>
