@@ -106,6 +106,7 @@ $_title="Insert | reservation ";
 	</div>
 				<section>
 					<button type="submit">Submit</button>
+					<button type="reset">Reset</button>
 				</section>
   
 </form>
