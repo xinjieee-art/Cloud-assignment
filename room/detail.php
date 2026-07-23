@@ -14,11 +14,12 @@ if(empty($user_id)){
 	temp("Sorry, you don't have the any record yet");
 	$shows = [];
 }else{
-	$stm=$_db->prepare("SELECT r.reservation_id,r.user_id,r.booking_date,r.status,t.start_time,t.end_time,rm.name AS room_name FROM reservation r 
-INNER JOIN time_slot t ON r.slot_id = t.slot_id
-INNER JOIN reservation_room rr ON rr.reservation_room = r.reservation_id
-INNER JOIN room rm ON rr.room_id = rm.room_id
-WHERE user_id=? 
+	$stm=$_db->prepare("SELECT r.reservation_id,r.user_id r.start_time,
+	r.end_time, r.booking_date, rm.name AS room_name,
+	rm.description, rm.status AS room_status,
+	rm.capacity FROM reservation r 
+	JOIN room rm ON r.room_id = rm.room_id 
+	WHERE r.user_id=?
 ");
 
 	$stm->execute([$user_id]);
@@ -46,6 +47,26 @@ WHERE user_id=?
 		<?= $show['room_name'] ?>
 		</div>
 
+		<div>
+		<label> Room Status:</label>
+		<span style="color:<?= $show['room_status'] === 'confirm' ? 'green' : 'red' ?>;">
+		<?= $show['room_status']?>
+		</span>
+		</div>
+
+		<div>
+		<label> Room Description:</label>
+		<span>
+			<?= $show['description']?>
+		</span>
+		</div>
+
+		<div>
+		<label> Room Capacity:</label>
+		<span>
+			<?= $show['capacity']?>
+		</span>
+		</div>
 
 		<div>
 		<label>Time:</label>
@@ -57,12 +78,7 @@ WHERE user_id=?
 		<?= $show['booking_date']?>
 		</div>
 
-		<div>
-		<label>Status:</label>
-		<span style="color:<?= $show['status'] === 'confirm' ? 'green' : 'red' ?>;">
-		<?= $show['status']?>
-		</span>
-		</div>
+		
 	</div>
 <?php endforeach ?>
 <?php include '../_foot.php'; ?>
