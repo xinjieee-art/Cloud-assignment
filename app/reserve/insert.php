@@ -1,6 +1,4 @@
-//hole
 <?php
-
 require '../_base.php';
 if(is_post()){
 global $_err;
@@ -61,10 +59,12 @@ $Room = $_db->query('SELECT room_id, name FROM room')->fetchAll(PDO::FETCH_OBJ);
 
 $Slot = $_db->query('SELECT slot_id, start_time, end_time FROM time_slot ')->fetchAll(PDO::FETCH_OBJ);
 
-include "/head.php";
-$_title="Insert | reservation ";
+$_title = "Booking Reservation";
+include "../_head.php";
+
+
 ?>
-<form method="POST">
+<form method="POST" class="form">
 	
 	<div>
 		<label>Student Id</label>

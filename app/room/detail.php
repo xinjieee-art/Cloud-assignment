@@ -23,14 +23,14 @@ if(empty($user_id)){
 	$shows=$stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-include '../_header.php';
-$_title="Room Detail";
+$_title = "Room Detail";
+include '../_head.php';
 
 ?>
 
 <?php foreach($shows as $show): ?>
 	<div>
+		
 		<div>
 		<label>Reservation ID:</label>
 		<?=$show['reservation_id'] ?>

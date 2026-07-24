@@ -18,11 +18,13 @@
     </header>
 
     <nav>
-        <a href="/room/detail.php">Room detail</a>
+        <a href="/reserve/insert.php">Booking reservation</a>
     </nav>
-    <a href="/reserve/insert.php">
+   
+
+<!--  <a href="/reserve/insert.php">
      <button type="button">Booking Reservation</button>
-    </a>
+    </a> -->
     
     <main>
         <h1>
