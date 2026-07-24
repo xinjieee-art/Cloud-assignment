@@ -87,7 +87,7 @@ $_title="Insert | reservation ";
 	</div>
 
 	<div>
-		<label>Date</label>
+		<label>Booking Date</label>
 		<input type="date" name="booking_date" value="<?=req('booking_date') ?>">
 		<?= err('booking_date')?>
 	</div>
