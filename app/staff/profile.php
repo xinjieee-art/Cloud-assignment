@@ -2,13 +2,13 @@
 include '../_base.php';
  
 // ----------------------------------------------------------------------------
-// Authenticated admin only
-auth('admin');
+// Authenticated staff only
+auth('staff');
 
  
 if (is_get()) {
-    $stm = $_db->prepare('SELECT * FROM admin WHERE admin_id=?');
-    $stm->execute([$_user->admin_id]);
+    $stm = $_db->prepare('SELECT * FROM staff WHERE staff_id=?');
+    $stm->execute([$_user->staff_id]);
     $u = $stm->fetch();
 
     if (!$u) {
@@ -39,10 +39,10 @@ if (is_post()) {
     }
     else {
         $stm = $_db->prepare('
-            SELECT COUNT(*) FROM admin
-            WHERE email=? AND admin_id != ?
+            SELECT COUNT(*) FROM staff
+            WHERE email=? AND staff_id != ?
         ');
-        $stm->execute([$email, $_user->admin_id]);
+        $stm->execute([$email, $_user->staff_id]);
  
         if ($stm->fetchColumn() > 0) {
             $_err['email'] = 'Duplicated';
@@ -76,11 +76,11 @@ if (is_post()) {
         }
 
         $stm = $_db->prepare('
-            UPDATE admin
+            UPDATE staff
             SET email = ?, name = ?, gender = ?, profile = ?
-            WHERE admin_id = ?
+            WHERE staff_id = ?
         ');
-        $stm->execute([$email, $name, $gender, $profile, $_user->admin_id]);
+        $stm->execute([$email, $name, $gender, $profile, $_user->staff_id]);
 
         $_user->email   = $email;
         $_user->name    = $name;
@@ -95,18 +95,19 @@ if (is_post()) {
  
 // ----------------------------------------------------------------------------
  
-$_title = 'Admin | Profile';
+$_title = 'Staff | Profile';
 include '../_head.php';
 ?>
  
 <div class="auth-card">
     <p class="auth-card__eyebrow">Manage your account</p>
-    <h2 class="auth-card__title">Admin Profile</h2>
+    <h2 class="auth-card__title">Staff Profile</h2>
 
     <form method="post" class="auth-form" enctype="multipart/form-data">
         <label class="auth-photo-upload" tabindex="0">
             <?= html_file('photo', 'image/*', 'hidden') ?>
-            <img src="/images/profile/<?= $profile ?>" id="photoPreview">
+            <?php $photoSrc = $profile ? "/images/profile/$profile" : '/images/user.png'; ?>
+            <img src="<?= $photoSrc ?>" id="photoPreview">
         </label>
 
         <label for="name" class="sr-only">Name</label>

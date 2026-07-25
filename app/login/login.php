@@ -2,15 +2,16 @@
     include '../_base.php';
     $_title = 'Login';
     include '../_head.php';
-    if ($_user){
+ 
+    if ($_user) {
         temp('info', "You're already logged in!");
         redirect('/');
     }
-
+ 
     if (is_post()) {
-        $email = req('email');
+        $email    = req('email');
         $password = req('password');
-
+ 
         // Validate: email
         if ($email == '') {
             $_err['email'] = 'Required';
@@ -18,131 +19,104 @@
         else if (!is_email($email)) {
             $_err['email'] = 'Invalid email';
         }
-
+ 
         // Validate: password
         if ($password == '') {
             $_err['password'] = 'Required';
         }
-
-        // Login user
-    if (is_post()) {
-            $email = req('email');
-            $password = req('password');
-
-            if ($email == '') {
-                $_err['email'] = 'Required';
-            } else if (!is_email($email)) {
-                $_err['email'] = 'Invalid email format';
+ 
+        if (!$_err) {
+            $stm = $_db->prepare('
+                SELECT * FROM user
+                WHERE email = ? AND password = ?
+            ');
+            $stm->execute([$email, $password]);
+            $u = $stm->fetch();
+ 
+            if ($u) {
+                $u->role = 'user'; 
             }
-
-            if ($password == '') {
-                $_err['password'] = 'Required';
-            }
-
-            if (!$_err) {
-                $stm = $_db->prepare('SELECT * FROM member WHERE email = ?');
-                $stm->execute([$email]);
+            else {
+                $stm = $_db->prepare('
+                    SELECT * FROM staff
+                    WHERE email = ? AND password = SHA1(?)
+                ');
+                $stm->execute([$email, $password]);
                 $u = $stm->fetch();
-
+ 
                 if ($u) {
+                    $u->role = 'staff';
+                }
+                else {
                     $stm = $_db->prepare('
-                        SELECT expire FROM token 
-                        WHERE member_id = ? AND expire > NOW()
+                        SELECT * FROM admin
+                        WHERE email = ? AND password = SHA1(?)
                     ');
-                    $stm->execute([$u->member_id]);
-                    $lock = $stm->fetch();
-
-                    if ($lock) {
-                        $remaining = ceil((strtotime($lock->expire) - time()) / 60);
-                        $_err['password'] = "Locked. Try again in $remaining min.";
+                    $stm->execute([$email, $password]);
+                    $u = $stm->fetch();
+ 
+                    if ($u) {
+                        $u->role = 'admin';
                     }
-
-                    else if ($u->password == sha1($password)) {
-                        $_db->prepare('
-                            UPDATE member SET login_attempts = 0 
-                            WHERE email = ?')->execute([$email]);
-                        $_db->prepare('
-                            DELETE FROM token 
-                            WHERE member_id = ?')->execute([$u->member_id]);
-
-                        temp('info', 'Login successfully, Welcome ' . $u->name);
-                        $u->role = 'member';
-                        login($u);
-                    } 
-
-                    else {
-                        $new_attempts = $u->login_attempts + 1;
-
-                        if ($new_attempts >= 3) {
-                            $id = sha1(uniqid());
-                            $stm = $_db->prepare('
-                                INSERT INTO token (id, expire, member_id) 
-                                VALUES (?, ADDTIME(NOW(), "00:05:00"), ?)');
-                            $stm->execute([$id, $u->member_id]);
-                            $_db->prepare('
-                                UPDATE member SET login_attempts = 0 
-                                WHERE email = ?')->execute([$email]);
-                            
-                            $_err['password'] = "Locked for 5 minutes.";
-                        } else {
-                            $_db->prepare('
-                                UPDATE member SET login_attempts = ? 
-                                WHERE email = ?')->execute([$new_attempts, $email]);
-                            $remaining = 3 - $new_attempts;
-                            $_err['password'] = "Wrong password. $remaining left.";
-                        }
-                    }
-                } else {
-                    $_err['email'] = 'Account not found';
                 }
             }
+ 
+            if ($u) {
+                temp('info', 'Login successfully, Welcome ' . $u->name);
+ 
+                // staff/admin land on the dashboard, user goes to the normal homepage
+                $url = in_array($u->role, ['admin', 'staff']) ? '/page/home.php' : '/';
+                login($u, $url);
+            }
+            else {
+                $_err['password'] = 'Not matched';
+            }
         }
-    }   
+    }
 ?>
+ 
+<div class="auth-card">
+    <p class="auth-card__eyebrow">Please enter your details</p>
+    <h2 class="auth-card__title">Welcome back</h2>
 
-<form method="post" class="memberLogin">
-    <label for="email" >Email</label>
-    <?= html_text('email',"", 'maxlength="100"') ?>
-    <?= err('email') ?>
+    <form method="post" class="auth-form">
+        <label for="email" class="sr-only">Email</label>
+        <?= html_text('email', 'placeholder="Email address" maxlength="100"') ?>
+        <?= err('email') ?>
 
-    <label for="password">Password</label>
-    <?= html_password('password', 'maxlength="100"') ?>
-        <div style="text-align: center; margin-top: 10px; margin-bottom: 20px; width: 100%;">
-            <a href="javascript:void(0)" 
-            id="toggleBtn" 
-            onclick="toggleView()" 
-            style="color: #ff8da1; font-size: 13px; text-decoration: none; font-weight: bold;">
-            Show Password
+        <label for="password" class="sr-only">Password</label>
+        <?= html_password('password', 'placeholder="Password" maxlength="100"') ?>
+        <?= err('password') ?>
+
+        <div class="auth-form__row">
+            <a href="javascript:void(0)"
+               id="toggleBtn"
+               onclick="toggleView()"
+               class="auth-link-muted">
+                Show Password
             </a>
+            <a href="reset.php" class="auth-link">Forgot password?</a>
         </div>
-    <?= err('password') ?>
 
-    <section method="post" class="memberLoginButton">
-        <button>Login</button>
+        <button class="auth-btn-primary">Login</button>
 
-    </section>
-
-    <section style="text-align: center;">
-        Don't have an account? 
-        <a href="register.php" style="display: inline; margin-left: 5px;">Register here</a>
-    </section>
-
-    <section>
-        <a href="reset.php">Forgot your password?</a>
-    </section> 
-</form>
+        <p class="auth-footer-text">
+            Don't have an account? <a href="register.php" class="auth-link">Register here</a>
+        </p>
+    </form>
+</div>
 
 <script>
 function toggleView() {
     const $input = $('#password');
     const $btn = $('#toggleBtn');
     const isHidden = $input.attr('type') === 'password';
-    
+
     $input.attr('type', isHidden ? 'text' : 'password');
     $btn.text(isHidden ? "Hide Password" : "Show Password");
 }
 </script>
-
-<?php 
+ 
+<?php
     include '../_foot.php'
 ?>

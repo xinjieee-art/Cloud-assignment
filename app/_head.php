@@ -12,20 +12,11 @@
 <body>
     <!-- Flash message -->
     <div id="info"><?= temp('info') ?></div>
-
+ 
     <header>
         <h1><a href="/">ABC Library</a></h1>
     </header>
-
-    <nav>
-        <a href="/reserve/insert.php">Booking reservation</a>
-    </nav>
-   
-
-<!--  <a href="/reserve/insert.php">
-     <button type="button">Booking Reservation</button>
-    </a> -->
-    
+ 
     <main>
         <h1>
             <?= $_title ?? 'Untitled' ?>

@@ -64,7 +64,7 @@ include "../_head.php";
 
 
 ?>
-<form method="POST" class="form">
+<form method="post" class="form-reserve">
 	
 	<div>
 		<label>Student Id</label>

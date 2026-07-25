@@ -14,31 +14,31 @@
         else if (!is_email($email)) {
             $_err['email'] = 'Invalid email';
         }
-        else if (!is_exists($email, 'member', 'email')) {
+        else if (!is_exists($email, 'user', 'email')) {
             $_err['email'] = 'Not exists';
         }
 
         if (!$_err) {
-            $stm = $_db->prepare('SELECT * FROM member WHERE email = ?');
-            $stm->execute([$email]); 
+            $stm = $_db->prepare('SELECT * FROM user WHERE email = ?');
+            $stm->execute([$email]);
             $u = $stm->fetch();
 
             $id = SHA1(uniqid() . rand());
 
-            $stm = $_db->prepare('DELETE FROM token WHERE member_id = ?');
-            $stm->execute([$u->member_id]); 
+            $stm = $_db->prepare('DELETE FROM token WHERE user_id = ?');
+            $stm->execute([$u->user_id]);
 
             $stm = $_db->prepare('
-                INSERT INTO token (id, expire, member_id)
+                INSERT INTO token (id, expire, user_id)
                 VALUES (?, ADDTIME(NOW(), "00:05"), ?)
             ');
-            $stm->execute([$id, $u->member_id]);
+            $stm->execute([$id, $u->user_id]);
 
             $url = base("login/token.php?id=$id");
-    
-            $m = get_mail(); 
+
+            $m = get_mail();
             $m->addAddress($u->email, $u->name);
-            $m->addEmbeddedImage("../$u->image_url", 'photo');
+            $m->addEmbeddedImage("../$u->profile", 'photo');
             $m->isHTML(true);
             $m->Subject = 'Reset Password';
             $m->Body = "
@@ -58,19 +58,25 @@
             redirect('/login/login.php');
         }
     }
-
 ?>
-    
-<form method="post" class="resetForm">
-    <label for="email">Email</label>
-    <?= html_text('email',"",'maxlength="100"') ?>
-    <?= err('email') ?>
 
-    <section>
-        <button>Submit</button>
-    </section>
-</form>
+<div class="auth-card">
+    <p class="auth-card__eyebrow">Forgot your password?</p>
+    <h2 class="auth-card__title">Reset Password</h2>
+
+    <form method="post" class="auth-form">
+        <label for="email" class="sr-only">Email</label>
+        <?= html_text('email', 'placeholder="Email address" maxlength="100"') ?>
+        <?= err('email') ?>
+
+        <button class="auth-btn-primary">Submit</button>
+
+        <p class="auth-footer-text">
+            Remember your password? <a href="login.php" class="auth-link">Login here</a>
+        </p>
+    </form>
+</div>
 
 <?php
-    include '../_foot.php'; 
+    include '../_foot.php';
 ?>
