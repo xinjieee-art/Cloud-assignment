@@ -63,9 +63,8 @@
  
             if ($u) {
                 temp('info', 'Login successfully, Welcome ' . $u->name);
- 
-                // staff/admin land on the dashboard, user goes to the normal homepage
-                $url = in_array($u->role, ['admin', 'staff']) ? '/page/home.php' : '/';
+
+                $url = in_array($u->role, ['admin', 'staff']) ? '/admin/home.php' : '/';
                 login($u, $url);
             }
             else {

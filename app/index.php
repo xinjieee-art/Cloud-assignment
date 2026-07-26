@@ -1,11 +1,10 @@
 <?php
 require '_base.php';
-redirect('page/home.php');
 
-$title = 'Study Room Reservation';
-$_title = 'Welcome';
-include '_head.php';
-?>
-
-<?php
-include '_foot.php';
+if ($_user) {
+    $url = in_array($_user->role, ['admin', 'staff']) ? '/admin/home.php' : '/page/home.php';
+    redirect($url);
+}
+else {
+    redirect('/login/login.php');
+}
