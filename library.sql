@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2026 at 08:35 PM
+-- Generation Time: Jul 26, 2026 at 04:59 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,6 +57,13 @@ CREATE TABLE `reservation` (
   `status` varchar(20) NOT NULL DEFAULT 'confirm'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`reservation_id`, `user_id`, `slot_id`, `booking_date`, `status`) VALUES
+(3, 2, 4, '2026-07-26', 'confirm');
+
 -- --------------------------------------------------------
 
 --
@@ -67,6 +74,13 @@ CREATE TABLE `reservation_room` (
   `room_id` int(11) NOT NULL,
   `reservation_room` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reservation_room`
+--
+
+INSERT INTO `reservation_room` (`room_id`, `reservation_room`) VALUES
+(1, 3);
 
 -- --------------------------------------------------------
 
@@ -81,6 +95,19 @@ CREATE TABLE `room` (
   `capacity` int(11) NOT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'available'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `room`
+--
+
+INSERT INTO `room` (`room_id`, `name`, `description`, `capacity`, `status`) VALUES
+(1, 'Large Room A', 'Spacious discussion room with projector and whiteboard, suitable for group study.', 12, 'available'),
+(2, 'Large Room B', 'Spacious discussion room with long table, ideal for group projects.', 12, 'available'),
+(3, 'Medium Room A', 'Mid-size room with whiteboard, suitable for small group study.', 6, 'available'),
+(4, 'Medium Room B', 'Mid-size room near the window, good natural lighting.', 6, 'available'),
+(5, 'Small Room A', 'Compact room for individual or pair study sessions.', 2, 'available'),
+(6, 'Small Room B', 'Quiet compact room, ideal for focused solo study.', 2, 'available'),
+(7, 'nothing', '....', 3, 'unavailable');
 
 -- --------------------------------------------------------
 
@@ -115,6 +142,18 @@ CREATE TABLE `time_slot` (
   `start_time` time NOT NULL,
   `end_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `time_slot`
+--
+
+INSERT INTO `time_slot` (`slot_id`, `start_time`, `end_time`) VALUES
+(1, '08:00:00', '10:00:00'),
+(2, '10:00:00', '12:00:00'),
+(3, '12:00:00', '14:00:00'),
+(4, '14:00:00', '16:00:00'),
+(5, '16:00:00', '18:00:00'),
+(6, '18:00:00', '20:00:00');
 
 -- --------------------------------------------------------
 
@@ -202,13 +241,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `room_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `room_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `staff`
@@ -220,7 +259,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `time_slot`
 --
 ALTER TABLE `time_slot`
-  MODIFY `slot_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `slot_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user`
