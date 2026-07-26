@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2026 at 01:41 PM
+-- Generation Time: Jul 25, 2026 at 08:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `perpustakaan`
+-- Database: `library`
 --
 
 -- --------------------------------------------------------
@@ -29,10 +29,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `admin_id` int(6) NOT NULL,
+  `profile` varchar(255) NOT NULL,
   `name` varchar(99) NOT NULL,
-  `password` varchar(99) NOT NULL,
+  `gender` char(1) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `email` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`admin_id`, `profile`, `name`, `gender`, `password`, `email`) VALUES
+(1, 'rose.jpg', 'Lim Xin Jie', 'F', '7f001b08e9fd415a4c15bd5f44c6a810f3980174', 'limxj@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -81,10 +90,19 @@ CREATE TABLE `room` (
 
 CREATE TABLE `staff` (
   `staff_id` int(6) NOT NULL,
+  `profile` varchar(255) NOT NULL,
   `name` varchar(99) NOT NULL,
-  `password` varchar(99) NOT NULL,
+  `gender` char(1) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `email` varchar(99) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `staff`
+--
+
+INSERT INTO `staff` (`staff_id`, `profile`, `name`, `gender`, `password`, `email`) VALUES
+(1, 'justin.jpg', 'Justin', 'M', '0ce7911e6479995d6c346d6f03eb723b5135309e', 'justin@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -107,11 +125,20 @@ CREATE TABLE `time_slot` (
 CREATE TABLE `user` (
   `user_id` int(6) NOT NULL,
   `name` varchar(99) NOT NULL,
+  `profile` varchar(255) NOT NULL,
+  `gender` char(1) NOT NULL,
   `email` varchar(99) NOT NULL,
-  `password` varchar(999) NOT NULL,
-  `phone_number` varchar(11) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `login_attemptes` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `name`, `profile`, `gender`, `email`, `password`, `login_attemptes`) VALUES
+(1, '', '', '', '', '', 0),
+(2, 'IU', '6a64f29fb210e.jpg', 'F', 'iu@gmail.com', '123456', 0);
 
 --
 -- Indexes for dumped tables
@@ -169,7 +196,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `reservation`
@@ -187,7 +214,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `staff_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `staff_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `time_slot`
@@ -199,7 +226,7 @@ ALTER TABLE `time_slot`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
