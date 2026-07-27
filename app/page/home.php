@@ -11,6 +11,16 @@ require __DIR__ . '/../_head.php';
     <!-- TODO: 普通 user 首页的实际内容放这里,例如: -->
     <!-- 图书列表 / 借阅记录 / 房间预约状态 等 -->
 
+    <button>
+        <a href="booking.php">Booking reservation</a>
+    </button>
+
+     <button>
+        <a href="room.php">History</a>
+    </button>
+    <button>
+        <a href="room_detail.php">Details</a>
+    </button>
 </div>
 
 <?php require __DIR__ . '/../_foot.php'; ?>
