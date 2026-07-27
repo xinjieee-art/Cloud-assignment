@@ -100,7 +100,6 @@ include '../_head.php';
                 <?= err('slot_id') ?>
             </div>
 
-            <!-- Buttons container forced onto a new line at the bottom -->
             <div class="form-actions">
                 <button type="submit" class="btn-submit">Submit</button>
                 <button type="reset" class="btn-reset">Reset</button>
