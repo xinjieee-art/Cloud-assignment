@@ -11,8 +11,10 @@ auth('user');
 $_title = "Room Detail";
 include '../_head.php';
 ?>
+
 <?php if($shows == ''): 
 	temp('info','No record yet');
+	redirect('home.php');
 	?>
 	<?php else:?>
 		<?php foreach($shows as $r):?>
