@@ -16,7 +16,7 @@ require __DIR__ . '/../_head.php';
     </button>
 
      <button>
-        <a href="room.php">History</a>
+        <a href="room_history.php">History</a>
     </button>
     <button>
         <a href="room_detail.php">Details</a>

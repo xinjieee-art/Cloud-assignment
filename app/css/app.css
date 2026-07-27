@@ -452,20 +452,123 @@ main:has(.auth-card) {
     border-radius: 5px;
     object-fit: cover;
 }
-/*Reservetion insert------------------------------------------------------------*/
+/*Booking insert------------------------------------------------------------*/
 .form-reserve {
-    display: flex;
-    gap: 15px;
+    display:flex;
+    gap:15px;
     align-items: center;
     max-width: 400px;
 }
 
-button{
-    border: 2px solid #000;
-    border-radius: 5px;
+
+.booking-card {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-button:hover{
-    background: #eef0ff;
-    color: #3d3dff;
+
+.booking-card h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #1e293b;
+    font-size: 24px;
+}
+
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #f8fafc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    gap:50px;
+    
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #2563eb;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+
+.err, .form-group .error {
+    color: #dc2626;
+    font-size: 15px;
+    margin-top: 4px;
     font-weight: 500;
+}
+
+
+.form-actions {
+    grid-column: 1 / -1; 
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-submit {
+    padding: 10px 24px;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-reset {
+    padding: 10px 20px;
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-reset:hover {
+    background-color: #e2e8f0;
+}
+
+
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
 }

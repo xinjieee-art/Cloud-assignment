@@ -57,51 +57,56 @@ $Slot = $_db->query('SELECT slot_id, start_time, end_time FROM time_slot ')->fet
 $_title="Booking Reservation";
 include '../_head.php';
 ?>
-<form method="post" class="form-reserve">
-	
-	<div>
-		<label>Student Id</label>
-		<input type="text" placeholder="Enter Id e.g 12PMD12345" name="user_id" maxlength="10" value="<?=req('user_id') ?> ">
-		<?= err('user_id')?>
-	</div>
-	
-	<div>
-		<label>Which Room </label>
-		<select id="roomSelect" name="room_id">
-			<option value="">Select a room</option>
-			<?php foreach ($Room as $r): ?>
-			<option value="<?=$r->room_id?>" <?=req('room_id') == $r->room_id ? 'selected':'' ?>>
-				<?=$r->name?>
-			</option>
-			<?php endforeach?>
-		</select>
-			<?= err('room_id')?>
+<div class="booking-card">
+    <h2>Booking Reservation</h2>
 
-	</div>
+    <form method="post" class="form-reserve">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="user_id">Student ID</label>
+                <input type="text" id="user_id" placeholder="Enter Id e.g 12PMD12345" name="user_id" maxlength="10" value="<?= htmlspecialchars(trim(req('user_id'))) ?>">
+                <?= err('user_id') ?>
+            </div>
 
-	<div>
-		<label>Booking Date</label>
-		<input type="date" name="booking_date" value="<?=req('booking_date') ?>">
-		<?= err('booking_date')?>
-	</div>
+            <div class="form-group">
+                <label for="roomSelect">Which Room</label>
+                <select id="roomSelect" name="room_id">
+                    <option value="">Select a room</option>
+                    <?php foreach ($Room as $r): ?>
+                        <option value="<?= $r->room_id ?>" <?= req('room_id') == $r->room_id ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($r->name) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <?= err('room_id') ?>
+            </div>
 
-	<div>
-		<label>Time</label>
-		<select name="slot_id">
-			<option value="">Select Time</option>
-			<?php foreach ($Slot as $s): ?>
-			<option value="<?= $s->slot_id?>" <?=req('slot_id') == $s->slot_id ? 'selected' : '' ?>>
-				<?= $s->start_time?> --- <?= $s->end_time ?>  
-			</option>
-			<?php endforeach?>
-		</select>
-		<?= err('slot_id')?>
-	</div>
-	<section>
-		<button type="submit" style="display: flex; ">Submit</button>
-		<button type="reset">Reset</button>
-	</section>
-  
-</form>
+            <div class="form-group">
+                <label for="booking_date">Booking Date</label>
+                <input type="date" id="booking_date" name="booking_date" value="<?= htmlspecialchars(req('booking_date')) ?>">
+                <?= err('booking_date') ?>
+            </div>
+
+            <div class="form-group">
+                <label for="slot_id">Time</label>
+                <select id="slot_id" name="slot_id">
+                    <option value="">Select Time</option>
+                    <?php foreach ($Slot as $s): ?>
+                        <option value="<?= $s->slot_id ?>" <?= req('slot_id') == $s->slot_id ? 'selected' : '' ?>>
+                            <?= date('g:i A', strtotime($s->start_time)) ?> - <?= date('g:i A', strtotime($s->end_time)) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <?= err('slot_id') ?>
+            </div>
+
+            <!-- Buttons container forced onto a new line at the bottom -->
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Submit</button>
+                <button type="reset" class="btn-reset">Reset</button>
+            </div>
+        </div>
+    </form>
+</div>
 <?php
 include '../_foot.php';
