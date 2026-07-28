@@ -1,12 +1,11 @@
 <?php 
 require '../_base.php';
-$shows=[];
 auth('user');
 	$user_id = req('user_id') ?? $_SESSION['user']['user_id'] ?? $_SESSION['user_id'] ?? null;
 
 	$stm=$_db->prepare('SELECT 
 	res.reservation_id,res.booking_date,
-	res.status, u.user_id, u.name AS user_name,
+	res.status, u.user_id,
 	rm.room_id, rm.name AS room_name, 
 	ts.start_time, ts.end_time
 	FROM reservation res
@@ -27,7 +26,6 @@ include '../_head.php';
 
 <?php if(empty($shows)): 
 	temp('info','No record yet');
-	redirect('home.php');
 	?>
 	<?php else:?>
 	<table>
@@ -35,7 +33,6 @@ include '../_head.php';
 			<tr>
 				<th>Reservation ID</th>
 				<th>Student ID</th>
-				<th>Student Name</th>
 				<th>Room Name</th>
 				<th>Status</th>
 				<th>Time</th>
@@ -43,11 +40,11 @@ include '../_head.php';
 			</tr>
 		</thead>
 			<tbody>
-				<?php foreach($shows as $show):?>
+				
 				<tr>
+					<?php foreach($shows as $show):?>
 					<td><?=htmlspecialchars($show['reservation_id'])?></td>
 					<td><?= htmlspecialchars($show['user_id']) ?></td>
-					<td><?= htmlspecialchars($show['user_name']) ?></td>
 					<td><?= htmlspecialchars($show['room_name']) ?></td>
 					<td style="color:<?=$show['status'] === 'confirm' ? 'green' : 'red' ?>; font-weight:bold;">
 					<?= htmlspecialchars($show['status'])?></td>

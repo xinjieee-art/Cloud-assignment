@@ -20,10 +20,10 @@ include '../_head.php';
 	<table style="border: 3px solid black;">
 		<thead>
 			<tr>
-				<th>Room name:</th>
-				<th>Room Status:</th>
-				<th>Room Description:</th>
-				<th>Room Capacity:</th>
+				<th>Room name</th>
+				<th>Room Status</th>
+				<th>Room Description</th>
+				<th>Room Capacity</th>
 			</tr>
 			
 		</thead>
