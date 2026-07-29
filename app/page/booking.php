@@ -58,7 +58,7 @@ $_title="Booking Reservation";
 include '../_head.php';
 ?>
 <div class="booking-card">
-    <h2>Booking Reservation</h2>
+
 
     <form method="post" class="form-reserve">
         <div class="form-grid">

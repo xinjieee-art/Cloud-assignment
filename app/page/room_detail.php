@@ -17,7 +17,7 @@ include '../_head.php';
 	redirect('home.php');
 	?>
 	<?php else:?>
-	<table style="border: 3px solid black;">
+	<table>
 		<thead>
 			<tr>
 				<th>Room name</th>
