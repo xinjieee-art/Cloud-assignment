@@ -101,7 +101,6 @@ $availablePct = $totalRooms > 0 ? round($availableCount / $totalRooms * 100) : 0
                 <p style="margin-top:10px;"><a href="/reserve/details.php" class="auth-link">View all reservations →</a></p>
             </div>
 
-            <!-- Room availability donut chart -->
             <div style="flex:1; min-width:220px; text-align:center;">
                 <h3 style="margin-top:0;">Room Availability</h3>
                 <div style="
