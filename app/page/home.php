@@ -4,7 +4,9 @@ require __DIR__ . '/../_base.php';
 auth('user');
 require __DIR__ . '/../_head.php';
 ?>
-
+    <nav>
+        <a href="../logout.php">lOGOUT</a>
+    </nav>
 <div class="user-home">
     <h2>Welcome, <?= htmlspecialchars($_user->name) ?></h2>
 
@@ -16,11 +18,13 @@ require __DIR__ . '/../_head.php';
     </button>
 
      <button>
-        <a href="room.php">History</a>
+        <a href="room_history.php">History</a>
     </button>
     <button>
         <a href="room_detail.php">Details</a>
     </button>
+
+    
 </div>
 
 <?php require __DIR__ . '/../_foot.php'; ?>

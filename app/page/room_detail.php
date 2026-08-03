@@ -4,7 +4,7 @@ require '../_base.php';
 auth('user');
 
 	$stm=$_db->prepare("SELECT * FROM room");
-	
+	$stm->execute();
 	$shows=$stm->fetchAll();
     
 
@@ -17,24 +17,29 @@ include '../_head.php';
 	redirect('home.php');
 	?>
 	<?php else:?>
-		<?php foreach($shows as $r):?>
 	<table>
 		<thead>
 			<tr>
-				<th>Room name:</th>
-				<th>Room Status:</th>
-				<th>Room Description:</th>
-				<th>Room Capacity:</th>
+				<th>Room name</th>
+				<th>Room Status</th>
+				<th>Room Description</th>
+				<th>Room Capacity</th>
 			</tr>
-		<thead>
+			
+		</thead>
+
 			<tbody>
-				<td><?= $r->name ?></td>
-				<td><?= $r->status?></td>
-				<td><?= $r->description?></td>
-				<td><?= $r->capacity?></td>
+				<tr>
+					<?php foreach($shows as $r):?>
+					<td><?= $r->name ?></td>
+					<td><?= $r->status?></td>
+					<td><?= $r->description?></td>
+					<td><?= $r->capacity?></td>
+				</tr>
+				<?php endforeach; ?>
+
 			</tbody>
 	
 </table>
-<?php endforeach ?>
-<?php endif ?>
+<?php endif;?>
 <?php include '../_foot.php'; ?>
