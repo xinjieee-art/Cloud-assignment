@@ -23,8 +23,6 @@ require __DIR__ . '/../_head.php';
     <button>
         <a href="room_detail.php">Details</a>
     </button>
-
-    
 </div>
 
 <?php require __DIR__ . '/../_foot.php'; ?>
