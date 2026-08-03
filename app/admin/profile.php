@@ -96,7 +96,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
  
 $_title = 'Admin | Profile';
-include '../_head.php';
+require __DIR__ . '/_head.php';
 ?>
  
 <div class="auth-card">

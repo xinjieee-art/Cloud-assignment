@@ -2,7 +2,7 @@
 $_title = 'Admin Dashboard';
 require __DIR__ . '/../_base.php';
 auth('admin', 'staff');
-require __DIR__ . '/../_head.php';
+require __DIR__ . '/_head.php';
 
 $totalUsers = $_db->query('SELECT COUNT(*) FROM user')->fetchColumn();
 $todayBookings = $_db->prepare('SELECT COUNT(*) FROM reservation WHERE booking_date = CURDATE()');

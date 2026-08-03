@@ -94,8 +94,8 @@ if (is_post()) {
     }
 }
 
-$_title = 'Edit Staff';
-include '../_head.php';
+$_title = 'Staff';
+require __DIR__ . '/../admin/_head.php';
 ?>
 
 <div class="auth-card">

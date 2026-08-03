@@ -68,8 +68,8 @@ if (is_post()) {
     }
 }
 
-$_title = 'Add Staff';
-include '../_head.php';
+$_title = 'New Staff';
+require __DIR__ . '/../admin/_head.php';
 ?>
 
 <div class="auth-card">

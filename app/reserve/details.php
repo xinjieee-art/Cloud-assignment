@@ -1,8 +1,8 @@
 <?php
-$_title = '';
+$_title = 'Reserve';
 require __DIR__ . '/../_base.php';
 auth('admin', 'staff');
-require __DIR__ . '/../_head.php';
+require __DIR__ . '/../admin/_head.php';
 
 $stm = $_db->query('
     SELECT

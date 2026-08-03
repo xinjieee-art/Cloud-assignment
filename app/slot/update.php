@@ -45,7 +45,7 @@ if (is_post()) {
 }
 
 $_title = 'Edit Time Slot';
-require __DIR__ . '/../_head.php';
+require __DIR__ . '/../admin/_head.php';
 ?>
 
 <div class="admin-layout">

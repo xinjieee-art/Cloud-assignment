@@ -8,7 +8,7 @@ auth('user');
 	$shows=$stm->fetchAll();
     
 
-$_title = "Room Detail";
+$_title = "Room";
 include '../_head.php';
 ?>
 
@@ -24,21 +24,28 @@ include '../_head.php';
 				<th>Room Status</th>
 				<th>Room Description</th>
 				<th>Room Capacity</th>
+				<th>Action</th>
 			</tr>
 			
 		</thead>
 
-			<tbody>
-				<tr>
-					<?php foreach($shows as $r):?>
-					<td><?= $r->name ?></td>
-					<td><?= $r->status?></td>
-					<td><?= $r->description?></td>
-					<td><?= $r->capacity?></td>
-				</tr>
-				<?php endforeach; ?>
-
-			</tbody>
+		<tbody>
+			<?php foreach($shows as $r):?>
+			<tr>
+				<td><?= $r->name ?></td>
+				<td><?= $r->status?></td>
+				<td><?= $r->description?></td>
+				<td><?= $r->capacity?></td>
+				<td>
+					<?php if ($r->status == 'available'): ?>
+						<a href="/page/booking.php?room_id=<?= $r->room_id ?>">Book</a>
+					<?php else: ?>
+						—
+					<?php endif ?>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
 	
 </table>
 <?php endif;?>

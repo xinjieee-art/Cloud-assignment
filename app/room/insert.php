@@ -42,8 +42,8 @@ if (is_post()) {
     }
 }
 
-$_title = 'Add Room';
-require __DIR__ . '/../_head.php';
+$_title = 'Room';
+require __DIR__ . '/../admin/_head.php';
 ?>
 
 <div class="admin-layout">

@@ -2,7 +2,7 @@
 $_title = '';
 require __DIR__ . '/../_base.php';
 auth('admin', 'staff');
-require __DIR__ . '/../_head.php';
+require __DIR__ . '/../admin/_head.php';
 
 $stm = $_db->query('SELECT * FROM time_slot ORDER BY start_time');
 $list = $stm->fetchAll();

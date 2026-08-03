@@ -69,7 +69,7 @@ $Room = $_db->query("SELECT room_id, name FROM room WHERE status = 'available'")
 $Slot = $_db->query('SELECT slot_id, start_time, end_time FROM time_slot ')->fetchAll(PDO::FETCH_OBJ);
 
 $_title = "";
-require __DIR__ . '/../_head.php';
+require __DIR__ . '/../admin/_head.php';
 ?>
 
 <div class="admin-layout">

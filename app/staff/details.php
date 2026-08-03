@@ -2,7 +2,7 @@
 $_title = '';
 require __DIR__ . '/../_base.php';
 auth('admin');
-require __DIR__ . '/../_head.php';
+require __DIR__ . '/../admin/_head.php';
 
 $stm = $_db->query('SELECT * FROM staff ORDER BY name');
 $list = $stm->fetchAll();
