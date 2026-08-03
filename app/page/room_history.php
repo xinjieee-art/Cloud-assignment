@@ -27,6 +27,7 @@ include '../_head.php';
 
 <?php if(empty($shows)): 
 	temp('info','No record yet');
+	redirect('home.php');
 ?>
 	<?php else:?>
 		<div class="table-container">
