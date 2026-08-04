@@ -12,11 +12,9 @@ $_title = "Room";
 include '../_head.php';
 ?>
 
-<?php if($shows == ''): 
-	temp('info','No record yet');
-	redirect('home.php');
-	?>
-	<?php else:?>
+<?php if (empty($shows)): ?>
+	<p>No record yet</p>
+<?php else: ?>
 	<table>
 		<thead>
 			<tr>
@@ -48,5 +46,6 @@ include '../_head.php';
 		</tbody>
 	
 </table>
+
 <?php endif;?>
 <?php include '../_foot.php'; ?>

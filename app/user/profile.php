@@ -109,9 +109,6 @@
             $upd->execute([$item->quantity, $item->product_id]);
         }
 
-        
-
-        
         $delDetails = $_db->prepare("DELETE FROM order_details WHERE order_id = ?");
         $delDetails->execute([$cancel_id]);
 

@@ -4,21 +4,9 @@ auth('user');
 if(is_post()){
 global $_err;
 $_err=[];
-$user_id=req('user_id');
 $slot_id=req('slot_id');
 $booking_date=req('booking_date');
 $room_id=req('room_id');
-
-if($user_id == ''){
-    $_err['user_id'] = "Require";
-}
-else if(!is_user($user_id)){
-	$_err['user_id'] = "Invalid Id";
-}
-elseif(!is_exists($user_id, 'user', 'user_id')){
-	$_err['user_id'] = "Student not found";
-}
-
 
 if(empty($slot_id)){
     $_err['slot_id'] = "Invalid. Please select";
@@ -30,11 +18,23 @@ if(empty($booking_date)){
 	$_err['booking_date'] = "Invalid. Please select date";
 }
 
+if (!empty($room_id) && !empty($slot_id) && !empty($booking_date)) {
+	$stm = $_db->prepare("
+		SELECT COUNT(*) FROM reservation res
+		JOIN reservation_room rr ON rr.reservation_room = res.reservation_id
+		WHERE rr.room_id = ? AND res.slot_id = ? AND res.booking_date = ? AND res.status = 'confirm'
+	");
+	$stm->execute([$room_id, $slot_id, $booking_date]);
+	if ($stm->fetchColumn() > 0) {
+		$_err['room_id'] = "This room is already booked for the selected date and time";
+	}
+}
+
 
 if(empty($_err))
 {
 	$stm=$_db->prepare("INSERT INTO reservation (user_id,slot_id,booking_date,status) VALUES(?,?,?,'confirm')");
-	$success=$stm->execute([$user_id,$slot_id,$booking_date]);
+	$success=$stm->execute([$_user->user_id,$slot_id,$booking_date]);
   
 	if($success){
 		$reservation_id = $_db->lastInsertId();
@@ -62,12 +62,6 @@ include '../_head.php';
 
     <form method="post" class="form-reserve">
         <div class="form-grid">
-            <div class="form-group">
-                <label for="user_id">Student ID</label>
-                <input type="text" id="user_id" placeholder="Enter Id e.g 12PMD12345" name="user_id" maxlength="10" value="<?= htmlspecialchars(trim(req('user_id'))) ?>">
-                <?= err('user_id') ?>
-            </div>
-
             <div class="form-group">
                 <label for="roomSelect">Which Room</label>
                 <select id="roomSelect" name="room_id">

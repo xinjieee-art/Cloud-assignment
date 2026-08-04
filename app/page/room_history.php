@@ -1,7 +1,7 @@
 <?php 
 require '../_base.php';
 auth('user');
-	$user_id = $_SESSION['user']->user_id ?? $_SESSION['user_id'] ?? null;
+	$user_id = $_user->user_id;
 
 	$stm=$_db->prepare('SELECT 
 	res.reservation_id,res.booking_date,
@@ -25,11 +25,9 @@ $_title = "Room History";
 include '../_head.php';
 ?>
 
-<?php if(empty($shows)): 
-	temp('info','No record yet');
-	redirect('home.php');
-?>
-	<?php else:?>
+<?php if (empty($shows)): ?>
+	<p>No record yet</p>
+<?php else: ?>
 		<div class="table-container">
 			<table>
 				<thead>
