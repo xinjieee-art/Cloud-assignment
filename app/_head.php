@@ -37,7 +37,7 @@
                 <img src="/images/user.png" class="profile-pic">
             <?php endif ?>
         </div>
-    </header>d
+    </header>
 
     <nav>
         <a href="/page/home.php">Home</a>
