@@ -18,6 +18,7 @@ $confirm  = req('confirm');
 // ----------------------------------------------------------------------------
 
 if (is_post()) {
+    $_err = []; // Initialize error array to prevent undefined variable notices
 
     if (!$email) {
         $_err['email'] = 'Required';
@@ -49,7 +50,6 @@ if (is_post()) {
         $_err['confirm'] = 'Not matched';
     }
 
-    // Changed $_err['name'] to $_err['username'] to match field name
     if (!$name) {
         $_err['username'] = 'Required';
     }
@@ -60,19 +60,21 @@ if (is_post()) {
     if (!$gender) {
         $_err['gender'] = 'Required';
     }
-    else if (!in_array($gender, ['Male', 'Female'])) {
+    else if (!in_array($gender, ['M', 'F'])) { // Validated against M and F
         $_err['gender'] = 'Invalid selection';
     }
 
     if (!$_err) {
+        // SQL query now hashes the password with SHA1(?)
         $stm = $_db->prepare('
             INSERT INTO user (name, email, password, gender)
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, SHA1(?), ?)
         ');
         $stm->execute([$name, $email, $password, $gender]);
 
         temp('info', 'Registered! Please login.');
         redirect('/login/login.php');
+        exit();
     }
 }
 
@@ -90,8 +92,8 @@ if (is_post()) {
 
         <label class="sr-only">Gender</label>
         <div class="auth-form__row">
-            <label><input type="radio" name="gender" value="Male" <?= $gender === 'Male' ? 'checked' : '' ?>> Male</label>
-            <label><input type="radio" name="gender" value="Female" <?= $gender === 'Female' ? 'checked' : '' ?>> Female</label>
+            <label><input type="radio" name="gender" value="M" <?= $gender === 'M' ? 'checked' : '' ?>> Male</label>
+            <label><input type="radio" name="gender" value="F" <?= $gender === 'F' ? 'checked' : '' ?>> Female</label>
         </div>
         <?= err('gender') ?>
 
@@ -136,5 +138,5 @@ function toggleAllPasswords() {
 </script>
 
 <?php
-    include '../_foot.php';
+include '../_foot.php';
 ?>

@@ -58,7 +58,7 @@
             $stm->execute([$new_password, $_user->user_id]);
 
             temp('info', 'Password updated');
-            redirect('/');
+            redirect('/user/profile.php');
         }
     }
 ?>

@@ -2,16 +2,18 @@
     include '../_base.php';
     $_title = 'Login';
     include '../_head.php';
- 
+
     if ($_user) {
         temp('info', "You're already logged in!");
         redirect('/');
     }
- 
+
     if (is_post()) {
         $email    = req('email');
         $password = req('password');
- 
+
+        $_err = []; // Initialize error array
+
         // Validate: email
         if ($email == '') {
             $_err['email'] = 'Required';
@@ -19,20 +21,21 @@
         else if (!is_email($email)) {
             $_err['email'] = 'Invalid email';
         }
- 
+
         // Validate: password
         if ($password == '') {
             $_err['password'] = 'Required';
         }
- 
+
         if (!$_err) {
+            // FIXED: Added SHA1(?) wrapper to match registration hashing
             $stm = $_db->prepare('
                 SELECT * FROM user
-                WHERE email = ? AND password = ?
+                WHERE email = ? AND password = SHA1(?)
             ');
             $stm->execute([$email, $password]);
             $u = $stm->fetch();
- 
+
             if ($u) {
                 $u->role = 'user'; 
             }
@@ -43,7 +46,7 @@
                 ');
                 $stm->execute([$email, $password]);
                 $u = $stm->fetch();
- 
+
                 if ($u) {
                     $u->role = 'staff';
                 }
@@ -54,18 +57,19 @@
                     ');
                     $stm->execute([$email, $password]);
                     $u = $stm->fetch();
- 
+
                     if ($u) {
                         $u->role = 'admin';
                     }
                 }
             }
- 
+
             if ($u) {
                 temp('info', 'Login successfully, Welcome ' . $u->name);
 
                 $url = in_array($u->role, ['admin', 'staff']) ? '/admin/home.php' : '/';
                 login($u, $url);
+                exit();
             }
             else {
                 $_err['password'] = 'Not matched';
@@ -73,7 +77,7 @@
         }
     }
 ?>
- 
+
 <div class="auth-card">
     <p class="auth-card__eyebrow">Please enter your details</p>
     <h2 class="auth-card__title">Welcome back</h2>
@@ -115,7 +119,7 @@ function toggleView() {
     $btn.text(isHidden ? "Hide Password" : "Show Password");
 }
 </script>
- 
+
 <?php
-    include '../_foot.php'
+    include '../_foot.php';
 ?>
