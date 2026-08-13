@@ -15,13 +15,13 @@
         }
 
         extract((array)$u);
-        $_SESSION['image_url'] = $u->profile;
+        $_SESSION['profile'] = $u->profile;
     }
 
     if (is_post()) {
         $email = req('email');
         $name  = req('name');
-        $photo = $_SESSION['image_url'] ?? 'images/profile/default.png';
+        $photo = $_SESSION['profile'] ?? 'images/profile/default.png';
         $f = get_file('photo');
 
         if ($email == '') {
@@ -89,14 +89,12 @@
             redirect('/');
         }
     }
-
-  
 ?>
 
 <form method="post" class="profileForm" enctype="multipart/form-data">
     <label class="upload" tabindex="0">
         <?= html_file('photo', 'image/*', 'hidden') ?>
-        <img src="../<?= $_user->image_url ?> ">
+        <img src="../<?= $_user->profile ?> ">
     </label>
     <?= err('photo') ?>
 

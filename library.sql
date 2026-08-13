@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2026 at 04:59 PM
+-- Generation Time: Aug 13, 2026 at 09:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -158,6 +158,18 @@ INSERT INTO `time_slot` (`slot_id`, `start_time`, `end_time`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `token`
+--
+
+CREATE TABLE `token` (
+  `id` varchar(100) NOT NULL,
+  `expire` datetime NOT NULL,
+  `user_id` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -177,7 +189,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `name`, `profile`, `gender`, `email`, `password`, `login_attemptes`) VALUES
 (1, '', '', '', '', '', 0),
-(2, 'IU', '6a64f29fb210e.jpg', 'F', 'iu@gmail.com', '123456', 0);
+(2, 'IU', '6a64f29fb210e.jpg', 'F', 'iu@gmail.com', '123456', 0),
+(3, 'Nigel Matthias Gregory', '6a7d708d38e27.jpg', 'M', 'nmgregory99@gmail.com', '12345', 0);
 
 --
 -- Indexes for dumped tables
@@ -220,6 +233,13 @@ ALTER TABLE `staff`
 --
 ALTER TABLE `time_slot`
   ADD PRIMARY KEY (`slot_id`);
+
+--
+-- Indexes for table `token`
+--
+ALTER TABLE `token`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `user`
@@ -265,7 +285,7 @@ ALTER TABLE `time_slot`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
