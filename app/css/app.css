@@ -780,3 +780,44 @@ button:hover{
     background: #fee2e2;
     color: #991b1b;
 }
+
+.profileForm label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #374151;
+
+}
+
+.profileForm input {
+   border: 1px solid #d1d5db;
+   border-radius: 6px;
+   gap: 10px;
+   padding: 8px 12px;
+   margin-bottom: 12px;
+
+}
+.profileForm img {
+   border: 1px solid #d1d5db;
+   border-radius: 6px;
+   gap: 10px;
+   padding: 8px 12px;
+   margin-bottom: 12px;
+
+}
+
+.passwordForm label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #374151;
+
+}
+.passwordForm input {
+   border: 1px solid #d1d5db;
+   border-radius: 6px;
+   gap: 10px;
+   padding: 8px 12px;
+   margin-bottom: 12px;
+
+}

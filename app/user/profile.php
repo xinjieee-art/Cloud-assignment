@@ -3,11 +3,11 @@
     $_title = 'Profile';
     include '../_head.php';
  
-    auth('member');
+    auth('user');
 
     if (is_get()) {
-        $stm = $_db->prepare('SELECT * FROM member WHERE member_id = ?');
-        $stm->execute([$_user->member_id]);
+        $stm = $_db->prepare('SELECT * FROM user WHERE user_id = ?');
+        $stm->execute([$_user->user_id]);
         $u = $stm->fetch();
 
         if (!$u) {
@@ -15,7 +15,7 @@
         }
 
         extract((array)$u);
-        $_SESSION['image_url'] = $u->image_url;
+        $_SESSION['image_url'] = $u->profile;
     }
 
     if (is_post()) {
@@ -36,10 +36,10 @@
         }
         else {
             $stm = $_db->prepare('
-                SELECT COUNT(*) FROM member
-                WHERE email = ? AND member_id != ?
+                SELECT COUNT(*) FROM user
+                WHERE email = ? AND user_id != ?
             ');
-            $stm->execute([$email, $_user->member_id]);
+            $stm->execute([$email, $_user->user_id]);
 
             if ($stm->fetchColumn() > 0) {
                 $_err['email'] = 'Duplicated';
@@ -73,57 +73,57 @@
 
             if ($f) {
                 unlink("../images/$photo");
-                $photo = save_photo($f, '../images/user','/images/user');
+                $photo = save_photo($f, '../images/profile','/images/profile');
             }
             $stm = $_db->prepare('
                 UPDATE member
-                SET email = ?, name = ?, phone_number = ?, image_url = ?
-                WHERE member_id = ?
+                SET email = ?, name = ?, profile = ?
+                WHERE user_id = ?
             ');
-            $stm->execute([$email, $name, $phone, $photo, $_user->member_id]);
+            $stm->execute([$email, $name, $photo, $_user->user_id]);
 
             $_user->email = $email;
             $_user->name  = $name;
-            $_user->phone_number = $phone;
-            $_user->image_url= $photo;
+            $_user->profile= $photo;
 
             temp('info', 'Profile updated!');
             redirect('/');
         }
     }
 
-    $stm = $_db->prepare('SELECT * FROM invoice WHERE member_id = ?');
-    $stm->execute([$_user->member_id]);
-    $orders = $stm->fetchAll();
+   // $stm = $_db->prepare('SELECT * FROM invoice WHERE user_id = ?');
+   // $stm->execute([$_user->user_id]);
+    //$orders = $stm->fetchAll();
 
-    if (is_post() && isset($_POST['cancel_order_id'])) {
-        $cancel_id = post('cancel_order_id');
-
-        
-        $stmt = $_db->prepare("SELECT product_id, quantity FROM order_details WHERE order_id = ?");
-        $stmt->execute([$cancel_id]);
-        $items = $stmt->fetchAll();
-
-        foreach ($items as $item) {
-            $upd = $_db->prepare("UPDATE product SET stock_quantity = stock_quantity + ? WHERE product_id = ?");
-            $upd->execute([$item->quantity, $item->product_id]);
-        }
-
-        $delDetails = $_db->prepare("DELETE FROM order_details WHERE order_id = ?");
-        $delDetails->execute([$cancel_id]);
+ //   if (is_post() && isset($_POST['cancel_order_id'])) {
+  //      $cancel_id = post('cancel_order_id');
 
         
-        $delReceipt = $_db->prepare("DELETE FROM receipt WHERE order_id = ?");
-        $delReceipt->execute([$cancel_id]);
+ //       $stmt = $_db->prepare("SELECT product_id, quantity FROM order_details WHERE order_id = ?");
+ //       $stmt->execute([$cancel_id]);
+ //        $items = $stmt->fetchAll();
+
+ //       foreach ($items as $item) {
+ //           $upd = $_db->prepare("UPDATE product SET stock_quantity = stock_quantity + ? WHERE product_id = ?");
+ //           $upd->execute([$item->quantity, $item->product_id]);
+ //       }
+
+ //       $delDetails = $_db->prepare("DELETE FROM order_details WHERE order_id = ?");
+  //      $delDetails->execute([$cancel_id]);
+
+        
+  //      $delReceipt = $_db->prepare("DELETE FROM receipt WHERE order_id = ?");
+ //       $delReceipt->execute([$cancel_id]);
 
        
-        $delInvoice = $_db->prepare("DELETE FROM invoice WHERE order_id = ?");
-        $delInvoice->execute([$cancel_id]);
+ //       $delInvoice = $_db->prepare("DELETE FROM invoice WHERE order_id = ?");
+ //       $delInvoice->execute([$cancel_id]);
 
-        temp('info', 'Order cancelled and records cleared.');
-        redirect($_SERVER['PHP_SELF']);
-        exit();
-    }
+ //       temp('info', 'Order cancelled and records cleared.');
+ //       redirect($_SERVER['PHP_SELF']);
+ //       exit();
+  //  }
+
 ?>
 
 <form method="post" class="profileForm" enctype="multipart/form-data">
@@ -136,22 +136,19 @@
     <label for="name">Name</label>
     <?= html_text('name', $_user->name, 'maxlength="100"') ?>
     <?= err('name') ?>
-
+    <br>
     <label for="email">Email</label>
     <?= html_text('email', $_user->email, 'maxlength="100"') ?>
     <?= err('email') ?>
 
-    <label for="phone">Phone</label>
-    <?= html_text('phone', $_user->phone_number, 'maxlength="11"') ?>
-    <?= err('phone') ?>
 
-    <section>
+    <section style="margin-top: 10px; margin-bottom: 20px;">
             <a href="password.php">Update your password?</a>
     </section>
 
     <section>
-        <button>Update Profile</button>
-        <button type="reset">Reset</button>
+        <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Update Profile</button>
+        <button type="reset" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Reset</button>
     </section>
 </form>
 

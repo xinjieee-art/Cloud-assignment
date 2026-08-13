@@ -4,7 +4,7 @@
     include '../_head.php';
 
  
-    auth('member');
+    auth('user');
 
     if (is_post()) {
         $password     = req('password');
@@ -20,10 +20,10 @@
         }
         else {
             $stm = $_db->prepare('
-                SELECT COUNT(*) FROM member
-                WHERE password = SHA1(?) AND member_id = ?
+                SELECT COUNT(*) FROM user
+                WHERE password = SHA1(?) AND user_id = ?
             ');
-            $stm->execute([$password, $_user->member_id]);
+            $stm->execute([$password, $_user->user_id]);
             
             if ($stm->fetchColumn() == 0) {
                 $_err['password'] = 'Not matched';
@@ -51,11 +51,11 @@
 
         if (!$_err) {
             $stm = $_db->prepare('
-                UPDATE member
+                UPDATE user     
                 SET password = SHA1(?)
-                WHERE member_id = ?
+                WHERE user_id = ?
             ');
-            $stm->execute([$new_password, $_user->member_id]);
+            $stm->execute([$new_password, $_user->user_id]);
 
             temp('info', 'Password updated');
             redirect('/');
@@ -76,7 +76,7 @@
     <?= html_password('confirm', 'class="pass-input" maxlength="100"') ?>
     <?= err('confirm') ?>
 
-    <div style="text-align: right; margin-top: 10px; margin-bottom: 20px;">
+    <div style="text-align: baseline; margin-top: 10px; margin-bottom: 20px;">
         <a href="javascript:void(0)" 
         id="allToggleBtn" 
         onclick="toggleAllPasswords()" 
@@ -88,13 +88,13 @@
         </a>
     </div>
 
-    <section>
+    <section style="margin-top: 10px; margin-bottom: 20px;">
         <a href="profile.php">Back to Profile</a>
     </section>
 
-    <section>
-        <button>Update Password</button>
-        <button type="reset">Reset</button>
+    <section class="passwordButtons">
+        <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Update Password</button>
+        <button type="reset"style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Reset</button>
     </section>
 </form>
 
