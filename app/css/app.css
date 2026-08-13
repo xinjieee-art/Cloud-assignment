@@ -821,3 +821,40 @@ button:hover{
    margin-bottom: 12px;
 
 }
+
+.auth-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sr-only label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #374151;
+}
+.auth-form input {
+   border: 1px solid #d1d5db;
+   border-radius: 6px;
+   gap: 10px;
+   padding: 8px 12px;
+   margin-bottom: 12px;
+   border-radius: 3px;
+
+}
+.tokenForm label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #374151;
+
+}
+.tokenForm input {
+   border: 1px solid #d1d5db;
+   border-radius: 6px;
+   gap: 10px;
+   padding: 8px 12px;
+   margin-bottom: 12px;
+
+}

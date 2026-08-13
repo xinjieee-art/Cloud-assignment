@@ -262,6 +262,27 @@ function is_exists($value, $table, $field) {
     return $stm->fetchColumn() > 0;
 }
 
+// Generate base URL
+function base($path = '') {
+    return "http://$_SERVER[SERVER_NAME]:$_SERVER[SERVER_PORT]/$path";
+}
+function get_mail() {
+    require_once 'lib/PHPMailer.php';
+    require_once 'lib/SMTP.php';
+
+    $m = new PHPMailer(true);
+    $m->isSMTP();
+    $m->SMTPAuth = true;
+    $m->Host = 'smtp.gmail.com';
+    $m->Port = 587;
+    $m->Username = 'emilychng8868@gmail.com';
+    $m->Password = 'omdk yqgx smyy dsrv';
+    $m->CharSet = 'utf-8';
+    $m->setFrom($m->Username, 'Admin');
+
+    return $m;
+}
+
 // ============================================================================
 // Global Constants and Variables
 // ============================================================================

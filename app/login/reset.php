@@ -38,13 +38,9 @@
 
             $m = get_mail();
             $m->addAddress($u->email, $u->name);
-            $m->addEmbeddedImage("../$u->profile", 'photo');
             $m->isHTML(true);
             $m->Subject = 'Reset Password';
             $m->Body = "
-                <img src='cid:photo'
-                    style='width: 200px; height: 200px;
-                            border: 1px solid #333'>
                 <p>Dear $u->name,<p>
                 <h1 style='color: red'>Reset Password</h1>
                 <p>

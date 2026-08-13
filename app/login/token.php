@@ -60,7 +60,7 @@
     <?= html_password('confirm', 'class="pass-input" maxlength="20"') ?>
     <?= err('confirm') ?>
 
-    <div style="text-align: right; margin-top: 10px; margin-bottom: 20px;">
+    <div style="text-align: baseline; margin-top: 10px; margin-bottom: 20px;">
         <a href="javascript:void(0)"
         id="allToggleBtn"
         onclick="toggleAllPasswords()"
@@ -73,8 +73,8 @@
     </div>
 
     <section>
-        <button>Submit</button>
-        <button type="reset">Reset</button>
+        <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; margin:auto">Submit</button>
+        <button type="reset" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; margin:auto">Reset</button>
     </section>
 </form>
 
