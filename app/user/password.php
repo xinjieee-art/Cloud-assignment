@@ -93,7 +93,7 @@
     </section>
 
     <section class="passwordButtons">
-        <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Update Password</button>
+        <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; margin:auto">Update Password</button>
         <button type="reset"style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Reset</button>
     </section>
 </form>
