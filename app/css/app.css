@@ -843,12 +843,24 @@ button:hover{
    border-radius: 3px;
 
 }
+.tokenForm{
+    margin: auto;
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    padding: 24px 28px;
+    box-sizing: border-box;
+    
+}
 .tokenForm label {
     display: block;
     margin-bottom: 6px;
     font-weight: 600;
     color: #374151;
-
+    
 }
 .tokenForm input {
    border: 1px solid #d1d5db;
@@ -856,5 +868,17 @@ button:hover{
    gap: 10px;
    padding: 8px 12px;
    margin-bottom: 12px;
+   align-items: center;
+    width: 290px;
 
+}
+.tokenForm button{
+    width: 130px;
+    gap: 5px ;
+    align-content: center;
+    display: flexbox;
+
+}
+.tokenForm button :hover{
+    background-color: #1b1766;
 }

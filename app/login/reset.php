@@ -41,7 +41,8 @@
             $m->isHTML(true);
             $m->Subject = 'Reset Password';
             $m->Body = "
-                <p>Dear $u->name,<p>
+                <p>Dear $u->name,
+                You are request for reset password for your acccount<p>
                 <h1 style='color: red'>Reset Password</h1>
                 <p>
                     Please click <a href='$url'>here</a>
