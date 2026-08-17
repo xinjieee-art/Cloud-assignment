@@ -1,5 +1,5 @@
 <?php
-$_title = '';
+$_title = 'Time Slot';
 require __DIR__ . '/../_base.php';
 auth('admin', 'staff');
 require __DIR__ . '/../admin/_head.php';

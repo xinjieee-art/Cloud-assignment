@@ -1,5 +1,5 @@
 <?php
-$_title = '';
+$_title = 'Staff';
 require __DIR__ . '/../_base.php';
 auth('admin');
 require __DIR__ . '/../admin/_head.php';
