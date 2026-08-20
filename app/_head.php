@@ -17,19 +17,6 @@
         <h1><a href="/">ABC Library</a></h1>
         <?php $_hideAuthLinks = str_contains($_SERVER['REQUEST_URI'], '/login.php')
                               || str_contains($_SERVER['REQUEST_URI'], '/register.php'); ?>
-        <?php if (!$_hideAuthLinks): ?>
-        <div class="header-right">
-            <?php if ($_user): ?>
-                <a href="/user/profile.php">
-                    <span><?= htmlspecialchars($_user->name) ?></span>
-                    <img src="/images/profile/<?= $_user->profile ?>" class="profile-pic">
-                </a>
-            <?php else: ?>
-                <a href="/login/login.php">Login / Register</a>
-                <img src="/images/user.png" class="profile-pic">
-            <?php endif ?>
-        </div>
-        <?php endif ?>
     </header>
 
     <nav>
