@@ -877,6 +877,7 @@ button:hover{
     gap: 5px ;
     align-content: center;
     display: flexbox;
+    
 
 }
 .tokenForm button :hover{
