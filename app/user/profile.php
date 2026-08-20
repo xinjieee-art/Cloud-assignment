@@ -21,7 +21,7 @@
     if (is_post()) {
         $email = req('email');
         $name  = req('name');
-        $photo = $_SESSION['profile'] ?? 'images/profile/default.png';
+        $photo = $_SESSION['profile'] ?? '';
         $f = get_file('photo');
 
         if ($email == '') {
@@ -65,15 +65,14 @@
         if (!$_err) {
 
             if ($f) {
-       
-        if (!empty($_user->profile) && $_user->profile !== 'images/profile/default.png') {
-            $old_file = '../' . $_user->profile;
-            if (file_exists($old_file) && is_file($old_file)) {
-                unlink($old_file);
+                if (!empty($_user->profile)) {
+                    $old_file = '../images/profile/' . $_user->profile;
+                    if (file_exists($old_file) && is_file($old_file)) {
+                        unlink($old_file);
+                    }
+                }
+                $photo = save_photo($f, '../images/profile', 200);
             }
-        }
-             $photo = save_photo($f, '../images/profile', 200);
-    }
             $stm = $_db->prepare('
                 UPDATE user
                 SET email = ?, name = ?, profile = ?
@@ -89,36 +88,49 @@
             redirect('/');
         }
     }
+
+    $photoSrc = !empty($profile) ? "/images/profile/$profile" : '/images/user.png';
 ?>
 
-<form method="post" class="profileForm" enctype="multipart/form-data">
-    <label class="upload" tabindex="0">
-        <?= html_file('photo', 'image/*', 'hidden') ?>
-        <img src="../<?= $_user->profile ?> ">
-    </label>
-    <?= err('photo') ?>
+<div class="auth-card">
+    <p class="auth-card__eyebrow">Manage your account</p>
+    <h2 class="auth-card__title">Profile</h2>
 
-    <label for="name">Name</label>
-    <?= html_text('name', $_user->name, 'maxlength="100"') ?>
-    <?= err('name') ?>
-    <br>
-    <label for="email">Email</label>
-    <?= html_text('email', $_user->email, 'maxlength="100"') ?>
-    <?= err('email') ?>
+    <form method="post" class="auth-form" enctype="multipart/form-data">
+        <label class="auth-photo-upload" tabindex="0">
+            <?= html_file('photo', 'image/*', 'hidden') ?>
+            <img src="<?= $photoSrc ?>" id="photoPreview">
+        </label>
+        <?= err('photo') ?>
 
+        <label for="name" class="sr-only">Name</label>
+        <?= html_text('name', 'placeholder="Full name" maxlength="100"') ?>
+        <?= err('name') ?>
 
-    <section style="margin-top: 10px; margin-bottom: 20px;">
-            <a href="password.php">Update your password?</a>
-    </section>
+        <label for="email" class="sr-only">Email</label>
+        <?= html_text('email', 'placeholder="Email address" maxlength="100"') ?>
+        <?= err('email') ?>
 
-    <section>
-        <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Update Profile</button>
-        <button type="reset" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Reset</button>
-    </section>
-</form>
+        <button class="auth-btn-primary">Update Profile</button>
+        <button type="reset" class="auth-btn-secondary">Reset</button>
 
-
+        <p class="auth-footer-text">
+            <a href="password.php" class="auth-link">Update your password?</a>
+        </p>
+    </form>
 </div>
+
+<script>
+$(document).on('change', 'input[name="photo"]', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        $('#photoPreview').attr('src', event.target.result);
+    };
+    reader.readAsDataURL(file);
+});
+</script>
 
 <?php
 include '../_foot.php';

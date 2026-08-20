@@ -12,7 +12,7 @@
         $email    = req('email');
         $password = req('password');
 
-        $_err = []; // Initialize error array
+        $_err = []; 
 
         // Validate: email
         if ($email == '') {
@@ -28,7 +28,6 @@
         }
 
         if (!$_err) {
-            // FIXED: Added SHA1(?) wrapper to match registration hashing
             $stm = $_db->prepare('
                 SELECT * FROM user
                 WHERE email = ? AND password = SHA1(?)

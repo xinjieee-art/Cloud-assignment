@@ -8,17 +8,14 @@ if ($_user) {
     redirect('/');
 }
 
-// Initialize form values to retain input after POST
 $name     = req('username');
 $gender   = req('gender');
 $email    = req('email');
 $password = req('password');
 $confirm  = req('confirm');
 
-// ----------------------------------------------------------------------------
-
 if (is_post()) {
-    $_err = []; // Initialize error array to prevent undefined variable notices
+    $_err = [];
 
     if (!$email) {
         $_err['email'] = 'Required';
@@ -60,12 +57,11 @@ if (is_post()) {
     if (!$gender) {
         $_err['gender'] = 'Required';
     }
-    else if (!in_array($gender, ['M', 'F'])) { // Validated against M and F
+    else if (!in_array($gender, ['M', 'F'])) {
         $_err['gender'] = 'Invalid selection';
     }
 
     if (!$_err) {
-        // SQL query now hashes the password with SHA1(?)
         $stm = $_db->prepare('
             INSERT INTO user (name, email, password, gender)
             VALUES (?, ?, SHA1(?), ?)
@@ -78,7 +74,6 @@ if (is_post()) {
     }
 }
 
-// ----------------------------------------------------------------------------
 ?>
 
 <div class="auth-card">

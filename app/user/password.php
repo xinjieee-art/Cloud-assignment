@@ -63,46 +63,46 @@
     }
 ?>
 
-<form method="post" class="passwordForm">
-    <label for="password">Current Password</label>
-    <?= html_password('password', 'class="pass-input" maxlength="100"') ?>
-    <?= err('password') ?>
+<div class="auth-card">
+    <p class="auth-card__eyebrow">Manage your account</p>
+    <h2 class="auth-card__title">Update Password</h2>
 
-    <label for="new_password">New Password</label>
-    <?= html_password('new_password', 'class="pass-input" maxlength="100"') ?>
-    <?= err('new_password') ?>
+    <form method="post" class="auth-form">
+        <label for="password" class="sr-only">Current Password</label>
+        <?= html_password('password', 'class="pass-input" placeholder="Current password" maxlength="100"') ?>
+        <?= err('password') ?>
 
-    <label for="confirm">Confirm Password</label>
-    <?= html_password('confirm', 'class="pass-input" maxlength="100"') ?>
-    <?= err('confirm') ?>
+        <label for="new_password" class="sr-only">New Password</label>
+        <?= html_password('new_password', 'class="pass-input" placeholder="New password" maxlength="100"') ?>
+        <?= err('new_password') ?>
 
-    <div style="text-align: baseline; margin-top: 10px; margin-bottom: 20px;">
-        <a href="javascript:void(0)" 
-        id="allToggleBtn" 
-        onclick="toggleAllPasswords()" 
-        style="color: #ff8da1;
-        font-size: 13px; 
-        text-decoration: none;
-         font-weight: bold;">
-        Show All Passwords
-        </a>
-    </div>
+        <label for="confirm" class="sr-only">Confirm Password</label>
+        <?= html_password('confirm', 'class="pass-input" placeholder="Confirm new password" maxlength="100"') ?>
+        <?= err('confirm') ?>
 
-    <section style="margin-top: 10px; margin-bottom: 20px;">
-        <a href="profile.php">Back to Profile</a>
-    </section>
+        <div class="auth-form__row">
+            <a href="javascript:void(0)"
+               id="allToggleBtn"
+               onclick="toggleAllPasswords()"
+               class="auth-link-muted">
+                Show All Passwords
+            </a>
+        </div>
 
-    <section class="passwordButtons">
-        <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; margin:auto">Update Password</button>
-        <button type="reset"style="background-color: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer;">Reset</button>
-    </section>
-</form>
+        <button class="auth-btn-primary">Update Password</button>
+        <button type="reset" class="auth-btn-secondary">Reset</button>
+
+        <p class="auth-footer-text">
+            <a href="profile.php" class="auth-link">Back to Profile</a>
+        </p>
+    </form>
+</div>
 
 <script>
 function toggleAllPasswords() {
     const $inputs = $('.pass-input');
     const $btn = $('#allToggleBtn');
-    
+
     if ($inputs.length > 0) {
         const isHidden = $inputs.first().attr('type') === 'password';
 
