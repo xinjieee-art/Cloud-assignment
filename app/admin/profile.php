@@ -124,7 +124,7 @@ require __DIR__ . '/_head.php';
         <?= err('gender') ?>
 
         <button class="auth-btn-primary">Save changes</button>
-        <button type="reset" class="auth-link-muted" style="text-align:center; margin-top:8px;">Reset</button>
+        <button type="reset" class="auth-btn-secondary">Reset</button>
     </form>
 </div>
 

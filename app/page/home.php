@@ -7,7 +7,6 @@ require __DIR__ . '/../_head.php';
 // Available rooms (preview)
 $rooms = $_db->query("SELECT * FROM room WHERE status = 'available' LIMIT 4")->fetchAll();
 
-// This user's recent reservations
 $stm = $_db->prepare('
     SELECT
         res.reservation_id,

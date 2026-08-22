@@ -1,8 +1,8 @@
 <?php
-$_title = 'Staff';
+$_title = 'Staff Management';
 require __DIR__ . '/../_base.php';
 auth('admin');
-require __DIR__ . '/../admin/_head.php';
+require __DIR__ . '/../_head.php';
 
 $stm = $_db->query('SELECT * FROM staff ORDER BY name');
 $list = $stm->fetchAll();
@@ -12,9 +12,8 @@ $list = $stm->fetchAll();
     <aside class="admin-sidebar">
         <a href="/admin/home.php">Home</a>
         <a href="/room/detail.php">Room</a>
-        <a href="/reserve/insert.php">Booking reservation</a>
+        <a href="/reserve/details.php">Booking reservation</a>
         <a href="/staff/details.php" class="active">Staff</a>
-        <a href="/slot/details.php">Time Slot</a>
         <a href="/logout.php">Logout</a>
 
         <a href="/admin/profile.php" class="sidebar-user">
@@ -26,6 +25,8 @@ $list = $stm->fetchAll();
     <section class="admin-content">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
             <h2 style="margin:0;">Staff List</h2>
+            <input type="text" id="searchBox" placeholder="Search staff..."
+                   style="flex:1; max-width:320px; margin:0 20px; box-sizing:border-box; padding:8px 12px; border:1px solid #e5e7eb; border-radius:8px; font-size:14px;">
             <a href="/staff/insert.php" class="auth-btn-primary" style="display:inline-block; width:auto; padding:8px 16px; text-decoration:none;">
                 + Add Staff
             </a>
@@ -41,9 +42,9 @@ $list = $stm->fetchAll();
                     <th style="padding:8px;">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="searchableRows">
                 <?php foreach ($list as $s): ?>
-                    <tr style="border-bottom:1px solid #f0f0f0;">
+                    <tr style="border-bottom:1px solid #f0f0f0;" data-search="<?= htmlspecialchars(strtolower($s->name . ' ' . $s->email)) ?>">
                         <td style="padding:8px;">
                             <img src="/images/profile/<?= $s->profile ?>" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">
                         </td>
@@ -63,5 +64,14 @@ $list = $stm->fetchAll();
         </table>
     </section>
 </div>
+
+<script>
+$(document).on('input', '#searchBox', function () {
+    const q = $(this).val().toLowerCase().trim();
+    $('#searchableRows tr').each(function () {
+        $(this).toggle($(this).data('search').includes(q));
+    });
+});
+</script>
 
 <?php require __DIR__ . '/../_foot.php'; ?>

@@ -16,7 +16,8 @@
     <header>
         <h1><a href="/">ABC Library</a></h1>
         <?php $_hideAuthLinks = str_contains($_SERVER['REQUEST_URI'], '/login.php')
-                              || str_contains($_SERVER['REQUEST_URI'], '/register.php'); ?>
+                            || str_contains($_SERVER['REQUEST_URI'], '/register.php')
+                            || str_contains($_SERVER['REQUEST_URI'], '/reset.php'); ?>
         <?php if (!$_hideAuthLinks): ?>
         <div class="header-right">
             <?php if ($_user): ?>
@@ -33,7 +34,7 @@
     </header>
 
     <nav>
-        <?php if ($_user): ?>
+        <?php if ($_user && ($_user->role ?? '') == 'user'): ?>
             <a href="/page/home.php">Home</a>
             <a href="/page/room_detail.php">Room</a>
             <a href="/page/room_history.php">History</a>

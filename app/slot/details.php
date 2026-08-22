@@ -1,8 +1,8 @@
 <?php
-$_title = 'Time Slot';
+$_title = 'Time Slot Management';
 require __DIR__ . '/../_base.php';
 auth('admin', 'staff');
-require __DIR__ . '/../admin/_head.php';
+require __DIR__ . '/../_head.php';
 
 $stm = $_db->query('SELECT * FROM time_slot ORDER BY start_time');
 $list = $stm->fetchAll();
@@ -12,11 +12,11 @@ $list = $stm->fetchAll();
     <aside class="admin-sidebar">
         <a href="/admin/home.php">Home</a>
         <a href="/room/detail.php">Room</a>
+        <a href="/slot/details.php" class="active">Time Slot</a>
         <a href="/reserve/details.php">Booking reservation</a>
         <?php if (($_user->role ?? '') == 'admin'): ?>
             <a href="/staff/details.php">Staff</a>
         <?php endif ?>
-        <a href="/slot/details.php" class="active">Time Slot</a>
         <a href="/logout.php">Logout</a>
 
         <?php $profileUrl = ($_user->role ?? '') == 'admin' ? '/admin/profile.php' : '/staff/profile.php'; ?>
@@ -34,6 +34,9 @@ $list = $stm->fetchAll();
             </a>
         </div>
 
+        <input type="text" id="searchBox" placeholder="Search time slots..."
+               style="width:100%; max-width:320px; box-sizing:border-box; padding:8px 12px; margin-bottom:12px; border:1px solid #e5e7eb; border-radius:8px; font-size:14px;">
+
         <table style="width:100%; border-collapse:collapse;">
             <thead>
                 <tr style="text-align:left; border-bottom:1px solid #ddd;">
@@ -42,9 +45,9 @@ $list = $stm->fetchAll();
                     <th style="padding:8px;">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="searchableRows">
                 <?php foreach ($list as $s): ?>
-                    <tr style="border-bottom:1px solid #f0f0f0;">
+                    <tr style="border-bottom:1px solid #f0f0f0;" data-search="<?= htmlspecialchars(strtolower($s->start_time . ' ' . $s->end_time)) ?>">
                         <td style="padding:8px;"><?= $s->start_time ?></td>
                         <td style="padding:8px;"><?= $s->end_time ?></td>
                         <td style="padding:8px;">
@@ -60,5 +63,14 @@ $list = $stm->fetchAll();
         </table>
     </section>
 </div>
+
+<script>
+$(document).on('input', '#searchBox', function () {
+    const q = $(this).val().toLowerCase().trim();
+    $('#searchableRows tr').each(function () {
+        $(this).toggle($(this).data('search').includes(q));
+    });
+});
+</script>
 
 <?php require __DIR__ . '/../_foot.php'; ?>
