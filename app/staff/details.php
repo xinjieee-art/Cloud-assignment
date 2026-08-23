@@ -12,6 +12,7 @@ $list = $stm->fetchAll();
     <aside class="admin-sidebar">
         <a href="/admin/home.php">Home</a>
         <a href="/room/detail.php">Room</a>
+        <a href="/slot/details.php">Time Slot</a>
         <a href="/reserve/details.php">Booking reservation</a>
         <a href="/staff/details.php" class="active">Staff</a>
         <a href="/logout.php">Logout</a>

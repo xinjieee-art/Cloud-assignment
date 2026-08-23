@@ -12,6 +12,7 @@ $list = $stm->fetchAll();
     <aside class="admin-sidebar">
         <a href="/admin/home.php">Home</a>
         <a href="/room/detail.php" class="active">Room</a>
+        <a href="/slot/details.php">Time Slot</a>
         <a href="/reserve/details.php">Booking reservation</a>
         <?php if (($_user->role ?? '') == 'admin'): ?>
             <a href="/staff/details.php">Staff</a>

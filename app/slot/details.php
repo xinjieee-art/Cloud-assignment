@@ -29,13 +29,12 @@ $list = $stm->fetchAll();
     <section class="admin-content">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
             <h2 style="margin:0;">Time Slot List</h2>
+            <input type="text" id="searchBox" placeholder="Search time slots..."
+                   style="flex:1; max-width:320px; margin:0 20px; box-sizing:border-box; padding:8px 12px; border:1px solid #e5e7eb; border-radius:8px; font-size:14px;">
             <a href="/slot/insert.php" class="auth-btn-primary" style="display:inline-block; width:auto; padding:8px 16px; text-decoration:none;">
                 + Add Time Slot
             </a>
         </div>
-
-        <input type="text" id="searchBox" placeholder="Search time slots..."
-               style="width:100%; max-width:320px; box-sizing:border-box; padding:8px 12px; margin-bottom:12px; border:1px solid #e5e7eb; border-radius:8px; font-size:14px;">
 
         <table style="width:100%; border-collapse:collapse;">
             <thead>

@@ -11,11 +11,16 @@ $room_id=req('room_id');
 if(empty($slot_id)){
     $_err['slot_id'] = "Invalid. Please select";
 }
+
 if(empty($room_id)){
 	$_err['room_id'] = "Invalid. Please select";
 }
+
 if(empty($booking_date)){
 	$_err['booking_date'] = "Invalid. Please select date";
+}
+else if ($booking_date < date('Y-m-d')) {
+	$_err['booking_date'] = "Cannot book a date in the past";
 }
 
 if (!empty($room_id) && !empty($slot_id) && !empty($booking_date)) {
@@ -29,7 +34,6 @@ if (!empty($room_id) && !empty($slot_id) && !empty($booking_date)) {
 		$_err['room_id'] = "This room is already booked for the selected date and time";
 	}
 }
-
 
 if(empty($_err))
 {
@@ -58,7 +62,8 @@ $_title="Booking Reservation";
 include '../_head.php';
 ?>
 <div class="booking-card">
-
+    <p class="booking-card__eyebrow">Reserve a study room</p>
+    <h2 class="booking-card__title">Book Your Slot</h2>
 
     <form method="post" class="form-reserve">
         <div class="form-grid">
@@ -77,7 +82,7 @@ include '../_head.php';
 
             <div class="form-group">
                 <label for="booking_date">Booking Date</label>
-                <input type="date" id="booking_date" name="booking_date" value="<?= htmlspecialchars(req('booking_date')) ?>">
+                <input type="date" id="booking_date" name="booking_date" min="<?= date('Y-m-d') ?>" value="<?= htmlspecialchars(req('booking_date')) ?>">
                 <?= err('booking_date') ?>
             </div>
 
@@ -97,6 +102,10 @@ include '../_head.php';
             <div class="form-actions">
                 <button type="submit" class="btn-submit">Submit</button>
                 <button type="reset" class="btn-reset">Reset</button>
+            </div>
+
+            <div class="form-back-link">
+                <a href="/page/room_detail.php">← Back to Room</a>
             </div>
         </div>
     </form>

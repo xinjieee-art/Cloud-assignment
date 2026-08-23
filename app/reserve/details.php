@@ -28,6 +28,7 @@ $list = $stm->fetchAll();
     <aside class="admin-sidebar">
         <a href="/admin/home.php">Home</a>
         <a href="/room/detail.php">Room</a>
+        <a href="/slot/details.php">Time Slot</a>
         <a href="/reserve/details.php" class="active">Booking reservation</a>
         <?php if (($_user->role ?? '') == 'admin'): ?>
             <a href="/staff/details.php">Staff</a>
@@ -70,14 +71,32 @@ $list = $stm->fetchAll();
                         <td style="padding:8px;"><?= htmlspecialchars($r->room_name ?? '—') ?></td>
                         <td style="padding:8px;"><?= $r->booking_date ?></td>
                         <td style="padding:8px;"><?= $r->start_time ?> - <?= $r->end_time ?></td>
-                        <td style="padding:8px;"><?= htmlspecialchars($r->status) ?></td>
+                        <?php
+                            // A confirmed booking whose date has already passed counts as "completed"
+                            $display_status = $r->status;
+                            if ($display_status === 'confirm' && $r->booking_date < date('Y-m-d')) {
+                                $display_status = 'completed';
+                            }
+
+                            $status_color = match ($display_status) {
+                                'confirm'   => '#16a34a',
+                                'completed' => '#6b7280',
+                                'cancel'    => '#c0392b',
+                                default     => '#111827',
+                            };
+                        ?>
+                        <td style="padding:8px; color:<?= $status_color ?>; font-weight:bold;"><?= htmlspecialchars($display_status) ?></td>
                         <td style="padding:8px;">
-                            <?php if ($r->status != 'cancel'): ?>
-                                <a href="/reserve/cancel.php?id=<?= $r->reservation_id ?>"
-                                   onclick="return confirm('Cancel this reservation?')"
-                                   style="color:#c0392b;">Cancel</a>
-                            <?php else: ?>
+                            <?php if ($display_status === 'completed'): ?>
                                 —
+                            <?php elseif ($r->status != 'cancel'): ?>
+                                <a href="/reserve/cancel.php?id=<?= $r->reservation_id ?>"
+                                onclick="return confirm('Cancel this reservation?')"
+                                style="color:#c0392b;">Cancel</a>
+                            <?php else: ?>
+                                <a href="/reserve/cancel.php?id=<?= $r->reservation_id ?>"
+                                onclick="return confirm('Restore this reservation to confirmed?')"
+                                style="color:#2e7d32;">Un-cancel</a>
                             <?php endif ?>
                         </td>
                     </tr>

@@ -55,13 +55,26 @@ $myBookings = $stm->fetchAll();
                         </thead>
                         <tbody>
                             <?php foreach ($myBookings as $b): ?>
+                                <?php
+                                    $display_status = $b->status;
+                                    if ($display_status === 'confirm' && $b->booking_date < date('Y-m-d')) {
+                                        $display_status = 'completed';
+                                    }
+
+                                    $pill_class = match ($display_status) {
+                                        'confirm'   => 'status-pill--confirm',
+                                        'completed' => 'status-pill--completed',
+                                        'cancel'    => 'status-pill--cancel',
+                                        default     => 'status-pill--other',
+                                    };
+                                ?>
                                 <tr>
                                     <td><?= htmlspecialchars($b->room_name ?? '—') ?></td>
                                     <td><?= $b->booking_date ?></td>
                                     <td><?= date('g:i A', strtotime($b->start_time)) ?> - <?= date('g:i A', strtotime($b->end_time)) ?></td>
                                     <td>
-                                        <span class="status-pill <?= $b->status === 'confirm' ? 'status-pill--confirm' : 'status-pill--other' ?>">
-                                            <?= htmlspecialchars($b->status) ?>
+                                        <span class="status-pill <?= $pill_class ?>">
+                                            <?= htmlspecialchars($display_status) ?>
                                         </span>
                                     </td>
                                 </tr>

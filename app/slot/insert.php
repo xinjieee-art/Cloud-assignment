@@ -51,13 +51,13 @@ require __DIR__ . '/../admin/_head.php';
     <section class="admin-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - 220px);">
         <h2 style="margin-top:0;">Add Time Slot</h2>
 
-        <form method="post" class="auth-form" style="max-width:420px; width:100%;">
+        <form method="post" class="auth-form" style="max-width:320px; width:100%;">
             <label for="start_time" class="sr-only">Start time</label>
-            <input type="time" name="start_time" value="<?= req('start_time') ?>" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">
+            <input type="time" name="start_time" value="<?= req('start_time') ?>" style="width:100%; padding:8px 10px; border-radius:8px; border:1px solid #ccc;">
             <?= err('start_time') ?>
 
             <label for="end_time" class="sr-only">End time</label>
-            <input type="time" name="end_time" value="<?= req('end_time') ?>" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">
+            <input type="time" name="end_time" value="<?= req('end_time') ?>" style="width:100%; padding:8px 10px; border-radius:8px; border:1px solid #ccc;">
             <?= err('end_time') ?>
 
             <button type="submit" class="auth-btn-primary">Add Time Slot</button>

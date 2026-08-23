@@ -20,12 +20,12 @@
                             || str_contains($_SERVER['REQUEST_URI'], '/reset.php'); ?>
         <?php if (!$_hideAuthLinks): ?>
         <div class="header-right">
-            <?php if ($_user): ?>
+            <?php if ($_user && ($_user->role ?? '') == 'user'): ?>
                 <a href="/user/profile.php">
                     <span><?= htmlspecialchars($_user->name) ?></span>
                     <img src="/images/profile/<?= $_user->profile ?>" class="profile-pic">
                 </a>
-            <?php else: ?>
+            <?php elseif (!$_user): ?>
                 <a href="/login/login.php">Login / Register</a>
                 <img src="/images/user.png" class="profile-pic">
             <?php endif ?>

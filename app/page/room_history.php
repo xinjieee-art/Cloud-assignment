@@ -14,7 +14,6 @@ auth('user');
 	LEFT JOIN reservation_room rr ON rr.reservation_room = res.reservation_id
 	LEFT JOIN room rm ON rm.room_id = rr.room_id
 	WHERE res.user_id = ?
-	AND res.status ="confirm"
 	ORDER BY res.booking_date DESC
 ');
 	$stm->execute([$user_id]);
@@ -35,8 +34,8 @@ include '../_head.php';
 						<th>Reservation ID</th>
 						<th>Student ID</th>
 						<th>Room Name</th>
-						<th>Status</th>
 						<th>Time</th>
+						<th>Status</th>
 						<th>Booking Date</th>
 					</tr>
 				</thead>
@@ -46,10 +45,24 @@ include '../_head.php';
 							<td><?=htmlspecialchars($show['reservation_id'])?></td>
 							<td><?= htmlspecialchars($show['user_id']) ?></td>
 							<td><?= htmlspecialchars($show['room_name']) ?></td>
-							<td style="color:<?=$show['status'] === 'confirm' ? 'green' : 'red' ?>; font-weight:bold;">
-							<?= htmlspecialchars($show['status'])?></td>
 							<td><?= htmlspecialchars(date('g:i A', strtotime
 							($show['start_time'] )))?> - <?=htmlspecialchars(date('g:i A',strtotime($show['end_time'])))?></td>
+							<?php
+								$display_status = $show['status'];
+								if ($display_status === 'confirm' && $show['booking_date'] < date('Y-m-d')) {
+									$display_status = 'completed';
+								}
+
+								$status_color = match ($display_status) {
+									'confirm'   => 'green',
+									'completed' => '#6b7280',
+									'cancel'    => 'red',
+									default     => 'black',
+								};
+							?>
+							<td style="color:<?= $status_color ?>; font-weight:bold;">
+								<?= htmlspecialchars($display_status) ?>
+							</td>
 							<td><?= htmlspecialchars(($show['booking_date']))?></td>
 						</tr>
 						<?php endforeach; ?>

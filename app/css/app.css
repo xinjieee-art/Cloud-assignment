@@ -2,12 +2,26 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+/* ============================================================
+   Design tokens — shared sizing for all card-style pages
+   (login, register, booking, and any future ones).
+   Change a value here and every card using it updates together.
+   ============================================================ */
+:root {
+    --card-width: 680px;
+    --card-width-pct: 90%;
+    --card-padding-y: 40px;
+    --card-padding-x: 48px;
+    --card-radius: 12px;
+    --card-eyebrow-size: 13px;
+    --card-title-size: 28px;
+}
+
 body, input, button, textarea, select {
     font: 16px 'Roboto', sans-serif;
 }
 
 /* Layout ------------------------------------------------------------------ */
-
 body {
     margin: 0;
     min-height: 100vh;
@@ -247,7 +261,6 @@ main:has(.form) .form {
 }
 
 /* Photo Upload ------------------------------------------------------------ */
-
 label.upload img {
     display: block;
     border: 1px solid #333;
@@ -258,32 +271,35 @@ label.upload img {
 }
 
 /* Auth pages (login / register) ------------------------------------------ */
-main:has(.auth-card) {
+main:has(.auth-card),
+main:has(.booking-card) {
     display: flex;
     flex-direction: column;
 }
 
-.auth-card {
+.auth-card,
+.booking-card {
+    width: min(var(--card-width-pct), var(--card-width));
     margin: auto;
-    width: 100%;
-    max-width: 380px;
     background: #fff;
     border: 1px solid #e5e7eb;
-    border-radius: 12px;
+    border-radius: var(--card-radius);
     box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-    padding: 24px 28px;
+    padding: var(--card-padding-y) var(--card-padding-x);
     box-sizing: border-box;
 }
 
-.auth-card__eyebrow {
+.auth-card__eyebrow,
+.booking-card__eyebrow {
     margin: 0 0 4px;
-    font-size: 13px;
+    font-size: var(--card-eyebrow-size);
     color: #9ca3af;
 }
 
-.auth-card__title {
-    margin: 0 0 24px;
-    font-size: 24px;
+.auth-card__title,
+.booking-card__title {
+    margin: 0 0 28px;
+    font-size: var(--card-title-size);
     font-weight: 700;
     color: #111827;
 }
@@ -506,6 +522,7 @@ main:has(.auth-card) {
     border-radius: 5px;
     object-fit: cover;
 }
+
 /*Booking insert------------------------------------------------------------*/
 .form-reserve {
     display:flex;
@@ -513,25 +530,6 @@ main:has(.auth-card) {
     align-items: center;
     max-width: 400px;
 }
-
-
-.booking-card {
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.booking-card h2 {
-    margin-top: 0;
-    margin-bottom: 24px;
-    color: #1e293b;
-    font-size: 24px;
-}
-
 
 .form-grid {
     display: grid;
@@ -543,6 +541,8 @@ main:has(.auth-card) {
 .form-group {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 6px;
 }
 
 .form-group label {
@@ -572,7 +572,6 @@ main:has(.auth-card) {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-
 .err, .form-group .error {
     color: #dc2626;
     font-size: 15px;
@@ -580,12 +579,17 @@ main:has(.auth-card) {
     font-weight: 500;
 }
 
-
 .form-actions {
-    grid-column: 1 / -1; 
+    grid-column: 1 / -1;
     display: flex;
+    justify-content: center;
     gap: 12px;
-    margin-top: 10px;
+    margin-top: 8px;
+}
+
+.btn-submit,
+.btn-reset {
+    min-width: 120px;
 }
 
 .btn-submit {
@@ -621,17 +625,98 @@ main:has(.auth-card) {
     background-color: #e2e8f0;
 }
 
-
 @media (max-width: 600px) {
     .form-grid {
         grid-template-columns: 1fr;
     }
 }
 
+/* Booking Reservation page ------------------------------------------------ */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-group select,
+.form-group input[type=date] {
+    padding: 10px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fafafa;
+    box-sizing: border-box;
+}
+
+.form-group select:focus,
+.form-group input[type=date]:focus {
+    outline: none;
+    border-color: #4f46e5;
+    background: #fff;
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.btn-submit {
+    padding: 10px 24px;
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-submit:hover { background: #4338ca; }
+
+.btn-reset {
+    padding: 10px 24px;
+    background: #fff;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-reset:hover { background: #f9fafb; }
+
+.form-back-link {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.form-back-link a {
+    font-size: 13px;
+    color: #6b7280;
+    text-decoration: none;
+}
+
+.form-back-link a:hover {
+    color: #4f46e5;
+    text-decoration: underline;
+}
 
 /*Booking history------------------------------------------------------------*/
-
-
 .table-container {
     max-width: 750px;
     margin: 30px auto;
@@ -679,7 +764,6 @@ button:hover{
 }
 
 /* User home page --------------------------------------------------------- */
-
 .user-home {
     max-width: 960px;
     margin: 0 auto;
@@ -797,6 +881,16 @@ button:hover{
     color: #991b1b;
 }
 
+.status-pill--completed {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.status-pill--cancel {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
 .profileForm label {
     display: block;
     margin-bottom: 6px;
@@ -898,4 +992,116 @@ button:hover{
 }
 .tokenForm button :hover{
     background-color: #1b1766;
+}
+
+/* ============================================================
+   Responsive layout (tablet / mobile)
+   ============================================================ */
+
+
+@media (max-width: 768px) {
+    header, footer {
+        padding: 10px 20px;
+    }
+
+    header {
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+
+    nav {
+        padding: 0 10px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    nav a {
+        flex: 0 0 auto;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    /* Admin dashboard: stack sidebar above content instead of side-by-side */
+    .admin-layout {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 0.5rem;
+    }
+
+    .admin-sidebar a {
+        padding: 8px 12px;
+    }
+
+    .sidebar-user {
+        margin-top: 0;
+        margin-left: auto;
+        border-top: none;
+    }
+
+    .admin-content {
+        padding: 1rem;
+    }
+
+    /* Tables: allow horizontal scroll instead of squeezing columns */
+    .admin-content table,
+    .table-container table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .table-container {
+        padding: 16px;
+        margin: 16px auto;
+    }
+
+    /* Title / search / button rows at the top of admin pages: let them wrap */
+    .admin-content > div:first-child {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 20px;
+        padding-left: 32px;
+        background-size: 28px;
+    }
+
+    .header-right span {
+        display: none; /* keep just the avatar on very small screens */
+    }
+
+    nav a {
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-home__grid {
+        flex-direction: column;
+    }
 }
