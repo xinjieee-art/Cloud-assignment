@@ -6,5 +6,5 @@ if ($_user) {
     redirect($url);
 }
 else {
-    redirect('/login/login.php');
+    redirect('/page/home.php');
 }

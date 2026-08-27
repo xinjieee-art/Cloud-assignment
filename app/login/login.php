@@ -105,6 +105,9 @@
         <p class="auth-footer-text">
             Don't have an account? <a href="register.php" class="auth-link">Register here</a>
         </p>
+        <p class="auth-footer-text">
+            <a href="/page/home.php" class="auth-link">← Back to Home Page</a>
+        </p>
     </form>
 </div>
 
