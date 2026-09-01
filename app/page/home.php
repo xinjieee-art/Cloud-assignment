@@ -110,17 +110,11 @@ $roomsUrl    = $isGuest ? '/login/login.php' : '/page/room_detail.php';
         <div class="user-home__side">
             <h3 class="section-title">Available Rooms</h3>
             <?php foreach ($rooms as $r): ?>
-                <?php if ($isGuest): ?>
-                    <a href="/login/login.php" class="room-card" style="display:block; text-decoration:none; color:inherit;">
-                        <div class="room-card__name"><?= htmlspecialchars($r->name) ?></div>
-                        <div class="room-card__capacity">Capacity: <?= $r->capacity ?></div>
-                    </a>
-                <?php else: ?>
-                    <div class="room-card">
-                        <div class="room-card__name"><?= htmlspecialchars($r->name) ?></div>
-                        <div class="room-card__capacity">Capacity: <?= $r->capacity ?></div>
-                    </div>
-                <?php endif ?>
+                <?php $roomLink = $isGuest ? '/login/login.php' : '/page/booking.php?room_id=' . $r->room_id; ?>
+                <a href="<?= $roomLink ?>" class="room-card" style="display:block; text-decoration:none; color:inherit;">
+                    <div class="room-card__name"><?= htmlspecialchars($r->name) ?></div>
+                    <div class="room-card__capacity">Capacity: <?= $r->capacity ?></div>
+                </a>
             <?php endforeach ?>
             <a href="<?= $roomsUrl ?>" class="auth-link">View all rooms →</a>
         </div>
