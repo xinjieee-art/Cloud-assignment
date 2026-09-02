@@ -66,7 +66,7 @@ require __DIR__ . '/../admin/_head.php';
         </a>
     </aside>
 
-    <section class="admin-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - 220px);">
+    <section class="admin-content admin-form-center">
         <h2 style="margin-top:0;">Edit Time Slot</h2>
 
         <form method="post" class="auth-form" style="max-width:420px; width:100%;">
