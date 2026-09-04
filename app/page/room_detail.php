@@ -15,8 +15,8 @@ include '../_head.php';
 <?php if (empty($shows)): ?>
 	<p>No record yet</p>
 <?php else: ?>
-	<table>
-		<div class="table-container">
+	<div style="max-width: 1100px; margin: 30px auto; padding: 30px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+		<table>
 			<thead>
 				<tr>
 					<th>Room name</th>
@@ -25,7 +25,6 @@ include '../_head.php';
 					<th>Room Capacity</th>
 					<th>Action</th>
 				</tr>
-				
 			</thead>
 
 			<tbody>
@@ -45,8 +44,7 @@ include '../_head.php';
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
-		</div>
-	</table>
-
+		</table>
+	</div>
 <?php endif;?>
 <?php include '../_foot.php'; ?>
